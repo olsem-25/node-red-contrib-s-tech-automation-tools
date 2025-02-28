@@ -6,13 +6,16 @@ module.exports = function (RED) {
         var node = this;
         const id = this.id;
         this.name = config.name;
+        var port = config.mqtt_port||1883;
+        var username = config.mqtt_username||null;
+        var password = config.mqtt_password||null;
+
    
         function connectMQTT() {
-            var node = this;
             var options = {
-                port: node.config.mqtt_port||1883,
-                username: node.config.mqtt_username||null,
-                password: node.config.mqtt_password||null,
+                port: port,
+                username: username,
+                password: password,
                 clientId:"NodeRed-"+node.id+"-"+(Math.random() + 1).toString(36).substring(7)
             };
             node.emit("online");

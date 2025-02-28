@@ -6,7 +6,7 @@ module.exports = function (RED) {
         var node = this;
         const id = this.id;
         this.name = config.name;
-        var host = config
+        var host = config.host;
         var port = config.mqtt_port||1883;
         var username = config.mqtt_username||null;
         var password = config.mqtt_password||null;
@@ -20,7 +20,7 @@ module.exports = function (RED) {
                 clientId:"NodeRed-"+node.id+"-"+(Math.random() + 1).toString(36).substring(7)
             };
             node.emit("online");
-            return mqtt.connect('mqtt://' + host, options);
+            return mqtt.connect("mqtt://" + host, options);
         }
         node.mqtt = connectMQTT();
     }

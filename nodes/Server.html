@@ -3,7 +3,10 @@
         category: 'config',
         defaults: {
             name: {value: "", required: false},
-            host: {value: "", required: true}
+            host: {value: "", required: true},
+            mqtt_port: {value: 1883, required: false},
+            mqtt_username: {value: null, required: false},
+            mqtt_password: {value: null, required: false}
         },
     label: function() {
             return this.name || this.host;
@@ -19,7 +22,19 @@
     </div>
     <div class="form-row">
         <label for="node-config-input-host"><i class="fa fa-globe"></i> Host</label>
-        <input type="text" id="node-config-input-host" disabled>
+        <input type="text" id="node-config-input-host">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-mqtt_port"><i class="fa fa-asterisk"></i> MQTT Port</label>
+        <input type="text" id="node-config-input-mqtt_port">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-mqtt_username"><i class="fa fa-user"></i> MQTT User</label>
+        <input type="text" id="node-config-input-mqtt_username">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-mqtt_password"><i class="fa fa-lock"></i> MQTT Password</label>
+        <input type="password" id="node-config-input-mqtt_password">
     </div>
    
 </script>

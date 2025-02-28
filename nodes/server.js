@@ -8,8 +8,6 @@ module.exports = function (RED) {
             const id = this.id;
             this.name = config.name;
 
-
-
         }
         connectMQTT() {
                 var node = this;
@@ -54,7 +52,7 @@ module.exports = function (RED) {
             node.log('MQTT Disconnected, Error:' + error));
             console.log('MQTT Disconnected, Error:' + error);
         }
-        
+
     }
     RED.nodes.registerType("wb-server", WBServer, {});
 }

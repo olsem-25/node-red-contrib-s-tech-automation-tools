@@ -13,10 +13,11 @@
         label: function(){
             return "S-Tech Regulator" + (this.name?" : "+this.name:"");
         },
+        oneditprepare: function() {
+            $('#node-config-input-name').val(this.name);
+        },
         oneditsave: function(){
-            var servername = $('#node-input-name option:selected').text();
-            $('#node-input-name').val(servername);
-            this.name = $('#node-input-name').val(); // Сохранение значения поля name
+            this.name = $('#node-config-input-name').val(); // Сохранение значения поля name
         }      
     });
 </script>

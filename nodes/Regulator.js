@@ -6,6 +6,7 @@ module.exports = function(RED) {
 		RED.nodes.createNode(this, config); 
 
         const server = RED.nodes.getNode(config.server);
+        
     }
     RED.nodes.registerType("Regulator", STRegulator);
 }

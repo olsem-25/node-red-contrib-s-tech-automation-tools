@@ -1,6 +1,6 @@
 <script type="text/javascript">
     RED.nodes.registerType('Regulator', {
-        category: 'S Tech',
+        category: 'S_Tech',
         color: '#FFD09D',
         defaults: {
             name: {value:""},
@@ -11,6 +11,10 @@
         label: function(){
             return this.name + ":Regulator";
         },
+        oneditsave: function(){
+            servername = $('#node-input-server option:selected').text();
+            $('#node-input-name').val(servername);
+        }
     });
 </script>
 

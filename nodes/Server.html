@@ -1,5 +1,5 @@
 <script type='text/javascript'>
-    RED.nodes.registerType('WB-Server', {
+    RED.nodes.registerType('WB-MQTT-Server', {
         category: 'config',
         defaults: {
             name: {value: "", required: false},
@@ -11,7 +11,7 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="WB-Server">
+<script type="text/x-red" data-template-name="WB-MQTT-Server">
    
     <div class="form-row">
         <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
@@ -24,6 +24,6 @@
    
 </script>
 
-<script type="text/x-red" data-help-name="WB-Server">
+<script type="text/x-red" data-help-name="WB-MQTT-Server">
     <p>This is a configuration node for connection to Wiren Board MQTT Server.</p>
 </script>

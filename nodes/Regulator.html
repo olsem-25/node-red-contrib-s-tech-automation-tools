@@ -11,7 +11,7 @@
         outputs:2, 
         icon: "S-Tech.png",   
         label: function(){
-            return "S-Tech Regulator";
+            return "S-Tech Regulator" + (this.name?" : "+this.name:"");
         },
         oneditsave: function(){
             servername = $('#node-input-wbserver option:selected').text();
@@ -21,7 +21,10 @@
 </script>
 
 <script type="text/x-red" data-template-name="Regulator">
-    <input type="hidden" id="node-input-name">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>  
     <div class="form-row">
         <label for="node-input-wbserver" class="l-width"> Server</span></label>
         <input type="text" id="node-input-wbserver">

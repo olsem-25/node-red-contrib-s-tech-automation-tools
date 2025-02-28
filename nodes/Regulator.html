@@ -3,7 +3,7 @@
         category: 'S Tech',
         color: '#FFD09D',
         defaults: {
-            name: {value:""},
+            name: {value:null, required: true},
             regultype: {value:"thermostat"},
             wbserver: {value:"", type:"WB-MQTT-Server"}
         },
@@ -23,8 +23,8 @@
 
 <script type="text/x-red" data-template-name="Regulator">
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
     </div>  
     <div class="form-row">
         <label for="node-input-wbserver" class="l-width"> Server</span></label>

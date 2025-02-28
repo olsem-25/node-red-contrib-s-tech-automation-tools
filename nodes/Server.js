@@ -19,8 +19,20 @@ module.exports = function (RED) {
                 password: password,
                 clientId:"NodeRed-"+node.id+"-"+(Math.random() + 1).toString(36).substring(7)
             };
-            node.emit("online");
-            return mqtt.connect("mqtt://" + host, options);
+            
+            var client = mqtt.connect("mqtt://" + host, options);
+            
+            client.on('error', function (error) {
+                node.emit("offline");
+            });
+            client.on('close', function () {
+                node.emit("offline");
+            });
+            client.on('connect', function () {
+                node.emit("online");
+            });
+        
+            return client;
         }
         node.mqtt = connectMQTT();
     }

@@ -19,10 +19,10 @@ module.exports = function (RED) {
                 password: password,
                 clientId:"NodeRed-"+node.id+"-"+(Math.random() + 1).toString(36).substring(7)
             };
-            //node.emit("online");
+            node.emit("online");
             return mqtt.connect("mqtt://" + host, options);
         }
-        //node.mqtt = connectMQTT();
+        node.mqtt = connectMQTT();
     }
 
     RED.nodes.registerType("WB-MQTT-Server", WBServerConfig, {});

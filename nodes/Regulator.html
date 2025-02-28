@@ -4,10 +4,12 @@
         color: '#FFD09D',
         defaults: {
             name: {value:""},
+            type: {value:"Thermostat"},
             wbserver: {value:"", type:"WB-MQTT-Server"}
+
         },
-        inputs:1,
-        outputs:1, 
+        inputs:2,
+        outputs:2, 
         icon: "S-Tech.png",   
         label: function(){
             return "S-Tech Regulator";
@@ -24,6 +26,13 @@
     <div class="form-row">
         <label for="node-input-wbserver" class="l-width"> Server</span></label>
         <input type="text" id="node-input-wbserver">
+    </div>
+    <div class="form-row">
+        <label for="node-input-type">Type regulator</label>
+        <select id="node-input-type" style="width: 70%;">
+            <option value="Thermostat">Thermostat</option>
+            <option value="Hydrostat">Hydrostat</option>
+         </select>
     </div>
 
 </script>

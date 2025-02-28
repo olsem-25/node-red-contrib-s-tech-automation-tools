@@ -15,6 +15,7 @@ module.exports = function (RED) {
                 password: node.config.mqtt_password||null,
                 clientId:"NodeRed-"+node.id+"-"+(Math.random() + 1).toString(36).substring(7)
             };
+            node.emit("online");
             return mqtt.connect('mqtt://' + node.config.host, options);
         }
         node.mqtt = connectMQTT();

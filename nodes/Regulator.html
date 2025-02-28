@@ -4,17 +4,13 @@
         color: '#FFD09D',
         defaults: {
             name: {value:""},
-            WBserver: {value:"", type:"WB-Server"}
+            wbserver: {value:"", type:"WB-Server"}
         },
         inputs:1,
         outputs:1,    
         label: function(){
             return this.name + ":Regulator";
-        },
-        oneditsave: function(){
-            servername = $('#node-input-server option:selected').text();
-            $('#node-input-name').val(servername);
-        }
+        }      
     });
 </script>
 

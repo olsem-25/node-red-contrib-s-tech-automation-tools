@@ -49,7 +49,7 @@ module.exports = function (RED) {
         }
 
         onMQTTDisconnect(error) {
-            node.log('MQTT Disconnected, Error:' + error));
+            node.log('MQTT Disconnected, Error:' + error);
             console.log('MQTT Disconnected, Error:' + error);
         }
 

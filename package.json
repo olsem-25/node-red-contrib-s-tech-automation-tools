@@ -5,7 +5,8 @@
     "node-red": {
       "version": ">=3.0.0",
       "nodes": {
-        "server": "nodes/server.js"
+        "Server": "nodes/Server.js",
+        "Rregulator": "nodes/Regulator.js"
       }
     },
     "keywords": [

@@ -5,7 +5,8 @@ module.exports = function(RED) {
         const node = this;
 		RED.nodes.createNode(this, config); 
         const server = RED.nodes.getNode(config.wbserver);
-        //server.setMaxListeners(cloud.getMaxListeners() + 1); // увеличиваем лимит для event
+        
+        
         const type = config.type;  
         
         

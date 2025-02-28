@@ -1,15 +1,16 @@
 var mqtt = require('mqtt');
 
 module.exports = function (RED) {
-    class WBServer{
-        constructor(n) {
+    
+    function WBServer(config) {
+           
             RED.nodes.createNode(this, n);
             var node = this;
             const id = this.id;
             this.name = config.name;
 
-        }
-        connectMQTT() {
+
+        function connectMQTT() {
                 var node = this;
                 var options = {
                 port: node.config.mqtt_port||1883,
@@ -20,7 +21,7 @@ module.exports = function (RED) {
             return mqtt.connect('mqtt://' + node.config.host, options);
         }
 
-        subscribeMQTT() {
+        function subscribeMQTT() {
             var node = this;
             node.mqtt.subscribe(node.topic, function (err) {
                 if (err) {
@@ -33,14 +34,14 @@ module.exports = function (RED) {
             })
         }
 
-        unsubscribeMQTT() {
+        function unsubscribeMQTT() {
             var node = this;
             node.log('MQTT Unsubscribe from mqtt topic: ' + node.topic);
             node.mqtt.unsubscribe(node.topic, function (err) {});
             node.devices = {};
         }
 
-        onMQTTConnect() {
+        function onMQTTConnect() {
             var node = this;
             node.connection = true;
             node.log('MQTT Connected');
@@ -48,7 +49,7 @@ module.exports = function (RED) {
             node.subscribeMQTT();
         }
 
-        onMQTTDisconnect(error) {
+        function onMQTTDisconnect(error) {
             node.log('MQTT Disconnected, Error:' + error);
             console.log('MQTT Disconnected, Error:' + error);
         }

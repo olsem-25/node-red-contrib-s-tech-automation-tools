@@ -4,17 +4,13 @@
         color: '#FFD09D',
         defaults: {
             name: {value:""},
-            server: {value:"", type:"WBServer"}
+            server: {value:"", type:"WB-server"}
         },
         inputs:1,
         outputs:1,    
         label: function(){
-            return this.name + ":ST-Regelator";
+            return this.name + ":ST-Regulator";
         },
-        oneditsave: function(){
-            devname = $('#node-input-device option:selected').text();
-            $('#node-input-name').val(devname);
-        }
     });
 </script>
 

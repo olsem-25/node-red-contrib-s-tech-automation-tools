@@ -54,5 +54,5 @@ module.exports = function (RED) {
         }
 
     }
-    RED.nodes.registerType("wb-server", WBServer, {});
+    RED.nodes.registerType("WB-server", WBServer, {});
 }

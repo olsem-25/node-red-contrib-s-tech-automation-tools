@@ -1,7 +1,6 @@
 var mqtt = require('mqtt');
 
-module.exports = function (RED) {
-    
+module.exports = function (RED) {    
     function WBServerConfig(config) {
             RED.nodes.createNode(this, config);   
             var node = this;

@@ -4,7 +4,7 @@ module.exports = function(RED) {
     function STRegulator(config) {
 
 		RED.nodes.createNode(this, config); 
-        const server = RED.nodes.getNode(config.server);
+        const server = RED.nodes.getNode(config.WBserver);
 
     }
     RED.nodes.registerType("Regulator", STRegulator);

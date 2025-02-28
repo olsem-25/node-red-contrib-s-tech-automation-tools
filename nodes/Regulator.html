@@ -14,7 +14,7 @@
             return "S-Tech Regulator" + (this.name?" : "+this.name:"");
         },
         oneditsave: function(){
-            var servername = $('#node-input-wbserver option:selected').text();
+            var servername = $('#node-input-name option:selected').text();
             $('#node-input-name').val(servername);
             this.name = $('#node-input-name').val(); // Сохранение значения поля name
         }      

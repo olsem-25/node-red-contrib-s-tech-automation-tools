@@ -8,6 +8,5 @@ module.exports = function (RED) {
             const id = this.id;
             this.name = config.name;
     }
-
-    RED.nodes.registerType("WB-Server", WBServerConfig);
+    RED.nodes.registerType("WB-Server", WBServerConfig, {});
 }

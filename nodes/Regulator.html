@@ -4,7 +4,7 @@
         color: '#FFD09D',
         defaults: {
             name: {value:""},
-            type: {value:"thermostat"},
+            regultype: {value:"thermostat"},
             wbserver: {value:"", type:"WB-MQTT-Server"}
         },
         inputs:1,
@@ -27,8 +27,8 @@
         <input type="text" id="node-input-wbserver">
     </div>
     <div class="form-row">
-        <label for="node-input-type">Type regulator</label>
-        <select id="node-input-type" style="width: 70%;">
+        <label for="node-input-regultype">Type regulator</label>
+        <select id="node-input-regultype" style="width: 70%;">
             <option value="thermostat">Thermostat</option>
             <option value="hydrostat">Hydrostat</option>
          </select>

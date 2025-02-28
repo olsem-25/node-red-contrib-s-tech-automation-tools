@@ -7,7 +7,7 @@ module.exports = function(RED) {
         const server = RED.nodes.getNode(config.wbserver);
         
         
-        const type = config.type;  
+        const regultype = config.regultype;  
         
         
         server.on("online",()=>{

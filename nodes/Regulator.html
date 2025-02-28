@@ -10,15 +10,19 @@
         outputs:1,    
         label: function(){
             return this.name + ":Regulator";
+        },
+        oneditsave: function(){
+            servername = $('#node-input-wbserver option:selected').text();
+            $('#node-input-name').val(servername);
         }      
     });
 </script>
 
 <script type="text/x-red" data-template-name="Regulator">
-    
+    <input type="hidden" id="node-input-name">
     <div class="form-row">
-        <label for="node-config-input-wbserver" class="l-width"> Server</span></label>
-        <input type="text" id="node-config-input-wbserver">
+        <label for="node-input-wbserver" class="l-width"> Server</span></label>
+        <input type="text" id="node-input-wbserver">
     </div>
 
 </script>

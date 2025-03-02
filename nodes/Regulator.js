@@ -37,7 +37,7 @@ module.exports = function(RED) {
                 }, timeout);
 
                 function onMessage(receivedTopic, message) {
-                    console.log(responseTopic + ":" + message);
+                    console.log(receivedTopic + ":" + message);
                     if (receivedTopic === topic) {
                         clearTimeout(timer);
                         server.mqtt.removeListener('message', onMessage);

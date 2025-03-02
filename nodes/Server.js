@@ -10,6 +10,7 @@ module.exports = function (RED) {
         var port = config.mqtt_port||1883;
         var username = config.mqtt_username||null;
         var password = config.mqtt_password||null;
+        var client;
 
    
         function connectMQTT() {
@@ -20,7 +21,7 @@ module.exports = function (RED) {
                 clientId:"NodeRed-"+node.id+"-"+(Math.random() + 1).toString(36).substring(7)
             };
             
-            var client = mqtt.connect("mqtt://" + host, options);
+            client = mqtt.connect("mqtt://" + host, options);
             
             client.on('error', function (error) {
                 node.emit("offline");
@@ -35,6 +36,37 @@ module.exports = function (RED) {
             return client;
         }
         node.mqtt = connectMQTT();
+
+        node.publishToTopic = (topic, message) => {
+            node.mqtt.publish(topic, message, function (err) {
+                if (err) {
+                    node.error(`Ошибка публикации в топик ${topic}: ${err.message}`);
+                } else {
+                    node.log(`Сообщение опубликовано в топик ${topic}`);
+                }
+            });
+        };
+
+        node.subscribeToTopic = (topic) => {
+                
+            node.mqtt.subscribe(topic, function (err) {
+                if (err) {
+                    node.error(`Ошибка подписки на топик ${topic}: ${err.message}`);
+                } else {
+                    node.log(`Успешно подписан на топик ${topic}`);
+                }
+            });
+                    
+            
+        }
+
+        // node.mqtt.on('message', function (topic, message) {
+        //     node.log(`Получено сообщение с топика ${topic}: ${message.toString()}`);
+        //     // Здесь можно добавить обработку полученного сообщения
+        // });
+        
+        // Пример использования функции подписки
+        //subscribeToTopics(['topic1', 'topic2']);
     }
 
     RED.nodes.registerType("WB-MQTT-Server", WBServerConfig, {});

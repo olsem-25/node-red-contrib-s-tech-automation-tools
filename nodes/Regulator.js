@@ -11,11 +11,11 @@ module.exports = function(RED) {
         
         
         server.on("online",()=>{
-			node.status({fill:"green",shape:"dot",text:"online"});
+			node.status({fill:"green",shape:"dot",text:"connect"});
 		});
 
 		server.on("offline",()=>{   
-			node.status({fill:"red",shape:"dot",text:"offline"});
+			node.status({fill:"red",shape:"dot",text:"no connect"});
 		});
 
     }

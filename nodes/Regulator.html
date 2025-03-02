@@ -4,7 +4,13 @@
         color: '#FFD09D',
         defaults: {
             name: {value:null, required: true},
+            title: {value:null, required: true},
             regultype: {value:"thermostat"},
+            strategy: {value:null},
+            min:{value:null},
+            max:{value:null},
+            target:{value:null},
+            hysteresis:{value:null},
             channel: {value: null, required: true},
             wbserver: {value:"", type:"WB-MQTT-Server"}
         },
@@ -16,12 +22,48 @@
         },
         oneditprepare: function() {
             $('#node-config-input-name').val(this.name);
-            setTimeout(function(){
-                WB_getItemList(node.channel, '#node-input-channel', {allowEmpty:false});
-                }, 100); //we need small timeout, too fire change event for server select
-            },
+            $('#node-input-regultype').on('change',()=>{
+            var val = $('#node-input-regultype').find(":selected").val();
+                switch (val) {
+                    case 'thermostat':
+                    $('#node-input-strategy')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append('<option value="strategy.heating">Heating</option>')
+                        .append('<option value="strategy.cooling">Cooling</option>')
+                        .prop('disabled', false);
+                    $('#node-input-min').val(15);
+                    $('#node-input-max').val(30);
+                    $('#node-input-target').val(20);
+                    $('#node-input-hysteresis').val(0.5);
+                    break;
+                    case 'hydrostat':
+                    $('#node-input-strategy')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append('<option value="strategy.drying">Drying</option>')
+                        .append('<option value="strategy.humidification">Humidification</option>')
+                        .prop('disabled', false); 
+                    $('#node-input-min').val(20);
+                    $('#node-input-max').val(80);
+                    $('#node-input-target').val(35);
+                    $('#node-input-hysteresis').val(1);  
+                    break;
+                    default:
+                    $('#node-input-strategy')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .prop('disabled', 'disabled');
+                    break; 
+                }
+            }) 
+        },  
         oneditsave: function(){
-            this.name = $('#node-config-input-name').val(); // Сохранение значения поля name
+            this.name = $('#node-input-name').val(); // Сохранение значения поля name
+            this.title = $('#node-input-title').val();
         }      
     });
 
@@ -29,19 +71,48 @@
 
 <script type="text/x-red" data-template-name="Regulator">
     <div class="form-row">
-        <label for="node-config-input-name" class="l-width"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-config-input-name" placeholder="Name">
-    </div>  
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div> 
     <div class="form-row">
-        <label for="node-input-wbserver" class="l-width"> Server</span></label>
+        <label for="node-input-title"><i class="fa fa-book"></i> Title</label>
+        <input type="text" id="node-input-title" placeholder="Title">
+    </div> 
+    <div class="form-row">
+        <label for="node-input-wbserver"><i class="fa fa-server"></i> Server</span></label>
         <input type="text" id="node-input-wbserver">
     </div>
     <div class="form-row">
-        <label for="node-input-regultype" class="l-width">Type regulator</label>
+        <label for="node-input-regultype"><i class="fa fa-bookmark"></i> Type</label>
         <select id="node-input-regultype" style="width: 70%;">
             <option value="thermostat">Thermostat</option>
             <option value="hydrostat">Hydrostat</option>
          </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-strategy"><i class="fa fa-bullseye"></i> Strategy</label>
+        <select id="node-input-strategy" style="width: 70%;">
+            <option value="strategy.heating">Heating</option>
+            <option value="strategy.cooling">Cooling</option>
+            <option value="strategy.drying">Drying</option>
+            <option value="strategy.humidification">Humidification</option>
+        </select>
+    </div>
+    <div class="form-row"> 
+        <label for="node-input-min"><i class="fa fa-minus"></i> Min</label>
+        <input type="number" id="node-input-min">
+    </div>
+    <div class="form-row">
+        <label for="node-input-max"><i class="fa fa-plus"></i> Max</label>
+        <input type="number" id="node-input-max">
+    </div>
+    <div class="form-row">
+        <label for="node-input-target"><i class="fa fa-crosshairs"></i> Target</label>
+        <input type="number" id="node-input-target">
+    </div>
+    <div class="form-row">
+        <label for="node-input-hysteresis"><i class="fa fa-compress"></i> Hysteresis</label>
+        <input type="number" id="node-input-hysteresis" step="0.1">
     </div>
 
 </script>

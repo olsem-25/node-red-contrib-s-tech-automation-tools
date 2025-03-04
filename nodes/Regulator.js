@@ -114,17 +114,18 @@ module.exports = function(RED) {
        
 
 
-        function WriteToMQTT(dev){
+        function WriteToMQTT(){
             var topic = basetopic + name;
             var meta = {};
             meta.name = config.title;
             meta.title = {};
             meta.title.ru = config.title;
             meta.driver = driver; 
+            console.log (device.enable); 
             server.publishToTopic( topic + "/meta/name", config.title);
             server.publishToTopic( topic + "/meta", JSON.stringify(meta));
             server.publishToTopic( topic + "/controls/enable/meta", JSON.stringify(metaenable));
-            server.publishToTopic( topic + "/controls/enable/on", config.enable.toString());
+            server.publishToTopic( topic + "/controls/enable", device.enable.toString());
 
             // clearObject(meta);
             // for (let key in device) {
@@ -144,7 +145,7 @@ module.exports = function(RED) {
         async function main() {
             await requestStartValue();
             await delay(500); // Приостановка выполнения на 500 мс
-            WriteToMQTT (device);
+            WriteToMQTT ();
         }
 
         SetAllMeta ();

@@ -39,35 +39,16 @@ module.exports = function (RED) {
 
         node.publishToTopic = (topic, message, retain) => {
             node.mqtt.publish(topic, message, {retain: retain}, function (err) {
-                if (err) {
-                    node.error(`Ошибка публикации в топик ${topic}: ${err.message}`);
-                } //else {
-                //     node.log(`Сообщение опубликовано в топик ${topic}`);
-                // }
+                if (err) node.error(`Ошибка публикации в топик ${topic}: ${err.message}`);
             });
         };
 
         node.subscribeToTopic = (topic) => {
                 
             node.mqtt.subscribe(topic, function (err) {
-                if (err) {
-                    node.error(`Ошибка подписки на топик ${topic}: ${err.message}`);
-                } //else {
-                //     node.log(`Успешно подписан на топик ${topic}`);
-                // }
-            });
-                    
-            
+                if (err) node.error(`Ошибка подписки на топик ${topic}: ${err.message}`);
+            }); 
         }
-
-        // node.mqtt.on('message', function (topic, message) {
-        //     node.log(`Получено сообщение с топика ${topic}: ${message.toString()}`);
-        //     // Здесь можно добавить обработку полученного сообщения
-        // });
-        
-        // Пример использования функции подписки
-        //subscribeToTopics(['topic1', 'topic2']);
     }
-
     RED.nodes.registerType("WB-MQTT-Server", WBServerConfig, {});
 }

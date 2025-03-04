@@ -8,7 +8,7 @@
             regultype: {value:"thermostat"},
             strategy: {value:null},
             min:{value:null, required: true},
-            max:{value:null},
+            max:{value:null, required: true},
             target:{value:null},
             hysteresis:{value:null},
             invertrelay:{value:false},
@@ -17,7 +17,7 @@
             wbserver: {value:"", type:"WB-MQTT-Server"}
         },
         inputs:1,
-        outputs:2, 
+        outputs:1, 
         icon: "S-Tech.png",   
         label: function(){
             return "S-Tech Regulator" + (this.name?" : "+this.name:"");
@@ -26,41 +26,43 @@
             $('#node-config-input-name').val(this.name);
             $('#node-input-regultype').on('change',()=>{
             var val = $('#node-input-regultype').find(":selected").val();
-                switch (val) {
-                    case 'thermostat':
+            switch (val) {
+                case 'thermostat':
                     $('#node-input-strategy')
                         .find('option')
                         .remove()
                         .end()
                         .append('<option value="heating">Heating</option>')
                         .append('<option value="cooling">Cooling</option>')
-                        .prop('disabled', false);
-                    $('#node-input-min').val(15);
-                    $('#node-input-max').val(30);
-                    $('#node-input-target').val(20);
-                    $('#node-input-hysteresis').val(0.5);
-                    break;
-                    case 'hydrostat':
+                        .prop('disabled', false);  
+                    $('#node-input-strategy').val(this.strategy || 'heating')
+                    $('#node-input-min').val(this.min || 15);
+                    $('#node-input-max').val(this.max || 30);
+                    $('#node-input-target').val(this.target || 20);
+                    $('#node-input-hysteresis').val(this.hysteresis || 0.5);
+                break;
+                case 'hygrostat':
                     $('#node-input-strategy')
                         .find('option')
                         .remove()
                         .end()
                         .append('<option value="drying">Drying</option>')
                         .append('<option value="humidification">Humidification</option>')
-                        .prop('disabled', false); 
-                    $('#node-input-min').val(20);
-                    $('#node-input-max').val(80);
-                    $('#node-input-target').val(35);
-                    $('#node-input-hysteresis').val(1);  
-                    break;
-                    default:
-                    $('#node-input-strategy')
-                        .find('option')
-                        .remove()
-                        .end()
-                        .prop('disabled', 'disabled');
-                    break; 
-                }
+                        .prop('disabled', false);
+                    $('#node-input-strategy').val(this.strategy || 'drying')        
+                    $('#node-input-min').val(this.min || 20);
+                    $('#node-input-max').val(this.max || 80);
+                    $('#node-input-target').val(this.target || 35);
+                    $('#node-input-hysteresis').val(this.hysteresis || 1);  
+                break;
+                default:
+                $('#node-input-strategy')
+                .find('option')
+                .remove()
+                .end()
+                .prop('disabled', 'disabled');
+                break; 
+            }
             });
             var userLocale = navigator.language || navigator.userLanguage;
             document.getElementById('node-input-locale').value = userLocale;
@@ -68,6 +70,13 @@
         oneditsave: function(){
             this.name = $('#node-input-name').val(); // Сохранение значения поля name
             this.title = $('#node-input-title').val();
+            this.regultype = $('#node-input-regultype').find(":selected").val();
+            this.strategy = $('#node-input-strategy').find(":selected").val();
+            this.min = $('#node-input-min').val();
+            this.max = $('#node-input-max').val();
+            this.target = $('#node-input-target').val();
+            this.hysteresis = ($('#node-input-hysteresis').val());
+            this.invertrelay = $('#node-input-invertrelay').prop('checked');
         } 
              
     });
@@ -91,7 +100,7 @@
         <label for="node-input-regultype"><i class="fa fa-bookmark"></i> Type</label>
         <select id="node-input-regultype" style="width: 70%;">
             <option value="thermostat">Thermostat</option>
-            <option value="hydrostat">Hydrostat</option>
+            <option value="hygrostat">Hygrostat</option>
          </select>
     </div>
     <div class="form-row">

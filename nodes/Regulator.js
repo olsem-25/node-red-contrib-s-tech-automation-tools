@@ -18,6 +18,14 @@ module.exports = function(RED) {
         const metastate = {};
         const metarelay = {};
 
+        const upto = {};
+        upto.en = " up to ";
+        upto.ru = " до ";
+
+        const to = {};
+        to.en = " to ";
+        to.ru = " до ";
+
         var InitComplete = false;
 
         const ParametrsNames = {};
@@ -94,6 +102,9 @@ module.exports = function(RED) {
         device.regultype = config.regultype;  
         device.strategy = config.strategy;
 
+        var previousRelay = -1;
+        //var previousStateStr = "";
+
         function SetAllMeta (){
             var param;
             switch (device.regultype){
@@ -161,7 +172,7 @@ module.exports = function(RED) {
                     if (topicParts[2] == name && topicParts.length == 5 && !(count == 2)) {                          
                         if (topicParts[4] == "target") {device.target = message.toString(); count += 1; }
                         if (topicParts[4] == "enable") {device.enable = message.toString(); count += 1; }    
-                        if (count == 2) {clearTimeout(timer);} //resolve(message.toString());}
+                        if (count == 2) {clearTimeout(timer);} 
                     }
                 }
                 server.mqtt.on('message', onMessage);
@@ -171,7 +182,6 @@ module.exports = function(RED) {
         async function requestStartValue() {
             try {
                 server.publishToTopic(requestTopic, "get_value", false);
-                //const message = 
                 await waitForMessage(responseTopic,500); // 500 мс таймаут
             } catch (error) {
                 node.error(`Ошибка: ${error.message}`);
@@ -183,7 +193,6 @@ module.exports = function(RED) {
 
 
         function WriteInitialValuesToMQTT() {
-            if (config.invertrelay == true) device.relay = 1 - device.relay;
             if (!(locale == "ru")) locale = "en";
             var topic = basetopic + name;
             var meta = {};
@@ -206,12 +215,27 @@ module.exports = function(RED) {
 
         function WriteValuesToMQTT() {
             var topic = basetopic + name;
+            var statestr = ParametrsNames.Temperature.states.idle[locale];
+            if (device.strategy == "heating" && device.relay == 1 ) statestr = device.state.toString() + upto[locale] + device.target.toString() + "°C";
+            //if (device.strategy == "heating" && device.relay == 0  ) statestr = device.state.toString();
+            if (device.strategy == "cooling" && device.relay == 1 ) statestr = device.state.toString() + to[locale] + device.target.toString() + "°C";
+            //if (device.strategy == "cooling" && device.relay == 0 ) statestr = device.state.toString();
+            if (device.strategy == "humidification" &&  device.relay == 1 ) statestr = device.state.toString() + upto[locale] + device.target.toString() + "%";
+            //if (device.strategy == "humidification" &&  device.relay == 0 ) statestr = device.state.toString();
+            if (device.strategy == "drying" &&  device.relay == 1 ) statestr = device.state.toString() + to[locale] + device.target.toString() + "%";
+            //if (device.strategy == "drying" &&  device.relay == 0 ) statestr = device.state.toString();
+            node.status({fill:"green",shape:"dot", text:statestr}); 
+            if (config.invertrelay == true) device.relay = 1 - device.relay;
             server.publishToTopic(topic + "/controls/state", device.state.toString(), true);
             server.publishToTopic(topic + "/controls/target", device.target.toString(), true);
             server.publishToTopic(topic + "/controls/enable", device.enable.toString(), true);
             server.publishToTopic(topic + "/controls/relay", device.relay.toString(), true); 
-            server.publishToTopic(topic + "/controls/current", device.current.toString(), true); 
-        }
+            server.publishToTopic(topic + "/controls/current", device.current.toString(), true);
+            if (device.relay !== previousRelay) {
+                node.send({ payload: device.relay.toString() });
+                previousRelay = device.relay;
+            }
+        }    
 
 
         this.on('input', (msg, send, done)=>{
@@ -230,61 +254,79 @@ module.exports = function(RED) {
     		device.current = msg.payload;
             RegulatorLogic ()
 			WriteValuesToMQTT ();
-			node.status({fill:"green",shape:"dot", text:device.state.toString()});
+			//node.status({fill:"green",shape:"dot", text:device.state.toString()});
 			if (done) {done();} 
 		});
 
         function RegulatorLogic () {
-            if (device.enable == 0) { device.state = ParametrsNames.Temperature.states.off[locale]; device.relay = 0; }         
+            //var statestr = "";
+            if (device.enable == 0) { device.state = ParametrsNames.Temperature.states.off[locale]; /*statestr = device.state.toString();*/ device.relay = 0; }         
             else switch (device.regultype) {
                 case "thermostat":
                     if (device.strategy == "heating"){
                         if ( Number(device.current) < Number(device.target) - Number(device.hysteresis)) {
-                            device.state = ParametrsNames.Temperature.states.head[locale]; device.relay = 1;                            
+                            device.state = ParametrsNames.Temperature.states.head[locale]; 
+                            //statestr = device.state.toString() + upto[locale] + device.target.toString() + "°C";
+                            device.relay = 1;                            
                             break;
                         }
                         if ( Number(device.current) > Number(device.target) + Number(device.hysteresis)) {
-                            device.state = ParametrsNames.Temperature.states.idle[locale]; device.relay = 0;
+                            device.state = ParametrsNames.Temperature.states.idle[locale]; 
+                            // statestr = device.state.toString();
+                            device.relay = 0;
                             break;
                         }
                     };
                     if (device.strategy == "cooling")
                     {
                         if (Number(device.current) > Number(device.target) + Number(device.hysteresis)) {
-                            device.state = ParametrsNames.Temperature.states.cool[locale]; device.relay = 1;
+                            device.state = ParametrsNames.Temperature.states.cool[locale]; 
+                            //statestr = device.state.toString() + to[locale] + device.target.toString() + "°C";
+                            device.relay = 1;
                             break;
                         }
                         if (Number(device.current) < Number(device.target) - Number(device.hysteresis)) {
-                            device.state = ParametrsNames.Temperature.states.idle[locale]; device.relay = 0;
+                            device.state = ParametrsNames.Temperature.states.idle[locale]; 
+                            //statestr = device.state.toString();
+                            device.relay = 0;
                             break;
                         }
                     };
                 break;
-                case "hydrostat":
+                case "hygrostat":
                     if (device.strategy == "humidification"){
                         if ( Number(device.current) < Number(device.target) - Number(device.hysteresis)) {
-                            device.state = ParametrsNames.Humidity.states.humidification[locale]; device.relay = 1;                            
+                            device.state = ParametrsNames.Humidity.states.humidification[locale]; 
+                            //statestr = device.state.toString() + upto[locale] + device.target.toString() + "°%";
+                            device.relay = 1;                            
                             break;
                         }
                         if ( Number(device.current) > Number(device.target) + Number(device.hysteresis)) {
-                            device.state = ParametrsNames.Humidity.states.idle[locale]; device.relay = 0;
+                            device.state = ParametrsNames.Humidity.states.idle[locale]; 
+                            //statestr = device.state.toString();
+                            device.relay = 0;
                             break;
                         }
                     };
                     if (device.strategy == "drying")
                     {
                         if (Number(device.current) > Number(device.target) + Number(device.hysteresis)) {
-                            device.state = ParametrsNames.Humidity.states.drying[locale]; device.relay = 1;
+                            device.state = ParametrsNames.Humidity.states.drying[locale]; 
+                            //statestr = device.state.toString() + to[locale] + device.target.toString() + "°%";
+                            device.relay = 1;
                             break;
                         }
                         if (Number(device.current) < Number(device.target) - Number(device.hysteresis)) {
-                            device.state = ParametrsNames.Humidity.states.idle[locale]; device.relay = 0;
+                            device.state = ParametrsNames.Humidity.states.idle[locale]; 
+                            //statestr = device.state.toString();
+                            device.relay = 0;
                             break;
                         }
                     };
                 break;
             }
-            node.status({fill:"green",shape:"dot", text:device.state.toString()}); 
+            //if ( statestr !== "" ) previousStateStr = statestr; 
+            //node.status({fill:"green",shape:"dot", text:previousStateStr}); 
         }
 
         server.mqtt.on('message', (topic, message) => {

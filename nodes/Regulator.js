@@ -217,9 +217,10 @@ module.exports = function(RED) {
             var topic = basetopic + name;
             var statestr = ParametrsNames.Temperature.states.idle[locale];
             if (device.strategy == "heating" && device.relay == 1 ) statestr = device.state.toString() + upto[locale] + device.target.toString() + "°C";
-             if (device.strategy == "cooling" && device.relay == 1 ) statestr = device.state.toString() + to[locale] + device.target.toString() + "°C";
+            if (device.strategy == "cooling" && device.relay == 1 ) statestr = device.state.toString() + to[locale] + device.target.toString() + "°C";
             if (device.strategy == "humidification" &&  device.relay == 1 ) statestr = device.state.toString() + upto[locale] + device.target.toString() + "%";
             if (device.strategy == "drying" &&  device.relay == 1 ) statestr = device.state.toString() + to[locale] + device.target.toString() + "%";
+            if (device.enable == 0 ) statestr = device.state.toString();
             node.status({fill:"green",shape:"dot", text:statestr}); 
             if (config.invertrelay == true) device.relay = 1 - device.relay;
             server.publishToTopic(topic + "/controls/state", device.state.toString(), true);

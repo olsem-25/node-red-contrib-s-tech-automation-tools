@@ -37,13 +37,13 @@ module.exports = function (RED) {
         }
         node.mqtt = connectMQTT();
 
-        node.publishToTopic = (topic, message) => {
-            node.mqtt.publish(topic, message, function (err) {
+        node.publishToTopic = (topic, message, retain) => {
+            node.mqtt.publish(topic, message, {retain: retain}, function (err) {
                 if (err) {
                     node.error(`Ошибка публикации в топик ${topic}: ${err.message}`);
-                } else {
-                    node.log(`Сообщение опубликовано в топик ${topic}`);
-                }
+                } //else {
+                //     node.log(`Сообщение опубликовано в топик ${topic}`);
+                // }
             });
         };
 
@@ -52,9 +52,9 @@ module.exports = function (RED) {
             node.mqtt.subscribe(topic, function (err) {
                 if (err) {
                     node.error(`Ошибка подписки на топик ${topic}: ${err.message}`);
-                } else {
-                    node.log(`Успешно подписан на топик ${topic}`);
-                }
+                } //else {
+                //     node.log(`Успешно подписан на топик ${topic}`);
+                // }
             });
                     
             

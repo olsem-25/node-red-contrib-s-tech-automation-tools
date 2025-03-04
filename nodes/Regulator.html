@@ -1,6 +1,6 @@
 <script type="text/javascript">
     RED.nodes.registerType('Regulator', {
-        category: 'S Tech',
+        category: 'S Tech tools',
         color: '#FFD09D',
         defaults: {
             name: {value:null, required: true},
@@ -11,6 +11,8 @@
             max:{value:null},
             target:{value:null},
             hysteresis:{value:null},
+            invertrelay:{value:false},
+            locale:{value:"en-EN"}, 
             channel: {value: null, required: true},
             wbserver: {value:"", type:"WB-MQTT-Server"}
         },
@@ -30,8 +32,8 @@
                         .find('option')
                         .remove()
                         .end()
-                        .append('<option value="strategy.heating">Heating</option>')
-                        .append('<option value="strategy.cooling">Cooling</option>')
+                        .append('<option value="heating">Heating</option>')
+                        .append('<option value="cooling">Cooling</option>')
                         .prop('disabled', false);
                     $('#node-input-min').val(15);
                     $('#node-input-max').val(30);
@@ -43,8 +45,8 @@
                         .find('option')
                         .remove()
                         .end()
-                        .append('<option value="strategy.drying">Drying</option>')
-                        .append('<option value="strategy.humidification">Humidification</option>')
+                        .append('<option value="drying">Drying</option>')
+                        .append('<option value="humidification">Humidification</option>')
                         .prop('disabled', false); 
                     $('#node-input-min').val(20);
                     $('#node-input-max').val(80);
@@ -59,15 +61,18 @@
                         .prop('disabled', 'disabled');
                     break; 
                 }
-            }) 
+            });
+            var userLocale = navigator.language || navigator.userLanguage;
+            document.getElementById('node-input-locale').value = userLocale;
         },  
         oneditsave: function(){
             this.name = $('#node-input-name').val(); // Сохранение значения поля name
             this.title = $('#node-input-title').val();
-        }      
+        } 
+             
     });
-
 </script>
+
 
 <script type="text/x-red" data-template-name="Regulator">
     <div class="form-row">
@@ -92,10 +97,10 @@
     <div class="form-row">
         <label for="node-input-strategy"><i class="fa fa-bullseye"></i> Strategy</label>
         <select id="node-input-strategy" style="width: 70%;">
-            <option value="strategy.heating">Heating</option>
-            <option value="strategy.cooling">Cooling</option>
-            <option value="strategy.drying">Drying</option>
-            <option value="strategy.humidification">Humidification</option>
+            <option value="heating">Heating</option>
+            <option value="cooling">Cooling</option>
+            <option value="drying">Drying</option>
+            <option value="humidification">Humidification</option>
         </select>
     </div>
     <div class="form-row"> 
@@ -114,7 +119,13 @@
         <label for="node-input-hysteresis"><i class="fa fa-compress"></i> Hysteresis</label>
         <input type="number" id="node-input-hysteresis" step="0.1">
     </div>
-
+    <div class="form-row">
+        <input id="node-input-locale" name="locale" type="hidden">
+    </div>
+    <label for="node-input-invertrelay" style="width:70%">
+        <input type="checkbox" id="node-input-invertrelay" style="display:inline-block; width:22px; vertical-align:baseline;" autocomplete="off">
+        <span> Relay inverted control</span>
+    </label>
 </script>
 
 <script type="text/x-red" data-help-name="Regulator">

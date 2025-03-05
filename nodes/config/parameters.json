@@ -1,0 +1,84 @@
+{
+    "Temperature": {
+        "target": {
+            "en": "Target Temperature",
+            "ru": "Целевая температура"
+        },
+        "current": {
+            "en": "Current Temperature",
+            "ru": "Текущая температура",
+            "type": "temperature"
+        },
+        "state": {
+            "en": "State",
+            "ru": "Состояние"
+        },
+        "states": {
+            "off": {
+                "en": "Off",
+                "ru": "Выкл."
+            },
+            "head": {
+                "en": "Heating",
+                "ru": "Нагрев"
+            },
+            "cool": {
+                "en": "Cooling",
+                "ru": "Охлаждение"
+            },
+            "auto": {
+                "en": "Auto",
+                "ru": "Авто"
+            },
+            "idle": {
+                "en": "Idle",
+                "ru": "Ожидание"
+            }
+        },
+        "relay": {
+            "en": "Relay",
+            "ru": "Реле"
+        }
+    },
+    "Humidity": {
+        "target": {
+            "en": "Target Humidity",
+            "ru": "Целевая влажность"
+        },
+        "current": {
+            "en": "Current Humidity",
+            "ru": "Текущая влажность",
+            "type": "humidity"
+        },
+        "state": {
+            "en": "State",
+            "ru": "Состояние"
+        },
+        "states": {
+            "off": {
+                "en": "Off",
+                "ru": "Выкл."
+            },
+            "humidification": {
+                "en": "Humidification",
+                "ru": "Увлажнение"
+            },
+            "drying": {
+                "en": "Drying",
+                "ru": "Осушение"
+            },
+            "auto": {
+                "en": "Auto",
+                "ru": "Авто"
+            },
+            "idle": {
+                "en": "Idle",
+                "ru": "Ожидание"
+            }
+        },
+        "relay": {
+            "en": "Relay",
+            "ru": "Реле"
+        }
+    }
+}

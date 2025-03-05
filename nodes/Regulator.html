@@ -138,5 +138,31 @@
 </script>
 
 <script type="text/x-red" data-help-name="Regulator">
-    <p>Bla bla bla.</p>
+
+    <p>Этот узел создает виртуальный регулятор: Термостат или гигростат.</p>
+
+    <h3>Конфигурация:</h3>
+    <ul>
+    <li><strong>Name</strong> - Выберете любое имя для виртуального устройства. Это имя будет использоваться для MQTT топика.</li>
+    <li><strong>Title</strong> - Удобное для идентификации имя, будет показываться в интерфейсе Wirenboard.</li>
+    <li><strong>Server</strong> - Выберете экземпляр сервера MQTT для использования.</li>
+    <li><strong>Type</strong> - Выберете тип устройства.</li>
+    <li><strong>Strategy</strong> - Выберете стратегию регулировки.</li>
+    <li><strong>Min</strong> - Минимальное значение регулировки.</li>
+    <li><strong>Max</strong> - Максимальное значение регулировки.</li>
+    <li><strong>Target</strong> - Целевое значение по умолчанию.</li>
+    <li><strong>Hysteresis</strong> - Гистерезис регулирования.</li>
+    <li><strong>Relay inverted control</strong> - Инвертирование реле.</li>
+    </ul>
+
+    <h3>Вход:</h3>
+    <ul>
+    <li><strong>payload</strong> - Текущее значение температуры или влажности с датчика (Number).</li>
+    </ul>
+
+    <h3>Выход:</h3>
+    <ul>
+    <li><strong>payload</strong> - Отправляет команду (0 или 1) для реле нагрузки.</li>
+    </ul>
+
 </script>

@@ -103,7 +103,6 @@ module.exports = function(RED) {
         device.strategy = config.strategy;
 
         var previousRelay = -1;
-        //var previousStateStr = "";
 
         function SetAllMeta (){
             var param;

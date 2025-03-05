@@ -1,6 +1,6 @@
 {
     "name": "node-red-s-tech-automation-tools",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Tools for Wirenboard",
     "node-red": {
       "version": ">=3.0.0",

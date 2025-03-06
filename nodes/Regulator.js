@@ -41,8 +41,6 @@ module.exports = function(RED) {
         device.regultype = config.regultype;  
         device.strategy = config.strategy;
 
-        var previousRelay = -1;
-
         function SetAllMeta (){
             var param;
             switch (device.regultype){
@@ -155,10 +153,7 @@ module.exports = function(RED) {
             server.publishToTopic(topic + "/controls/enable", device.enable.toString(), true);
             server.publishToTopic(topic + "/controls/relay", device.relay.toString(), true); 
             server.publishToTopic(topic + "/controls/current", device.current.toString(), true);
-            if (device.relay !== previousRelay) {
-                node.send({ payload: device.relay.toString() });
-                previousRelay = device.relay;
-            }
+            node.send({ payload: device.relay.toString() });
         }    
 
 

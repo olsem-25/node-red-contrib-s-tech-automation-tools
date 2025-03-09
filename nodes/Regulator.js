@@ -238,9 +238,9 @@ module.exports = function(RED) {
             }            
         });
         
-        function delay(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
+        // function delay(ms) {
+        //     return new Promise(resolve => setTimeout(resolve, ms));
+        // }
 
         server.mqtt.subscribe(basetopic + name +"/#", function (err) {
             if (err) {

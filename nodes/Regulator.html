@@ -20,7 +20,7 @@
         outputs:1, 
         icon: "S-Tech.png",   
         label: function(){
-            return "S-Tech Regulator" + (this.name?" : "+this.name:"");
+            return "S-Tech Regulator" + (this.title?" : "+this.title:"");
         },
         oneditprepare: function() {
             $('#node-config-input-name').val(this.name);

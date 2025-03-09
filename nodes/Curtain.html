@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('Gurtain', {
+    RED.nodes.registerType('Curtain', {
         category: 'S Tech tools',
         color: '#FFD09D',
         defaults: {
@@ -10,13 +10,12 @@
         outputs:2, 
         icon: "S-Tech.png", 
         label: function(){
-            return "S-Tech Gurtain" + (this.name?" : "+this.name:"");
-        },
-    
+            return "S-Tech Curtain" + (this.name?" : "+this.name:"");
+        }    
     });
 </script>
 
-<script type="text/x-red" data-template-name="Gurtain">
+<script type="text/x-red" data-template-name="Curtain">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -27,6 +26,6 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="Gurtain">
+<script type="text/x-red" data-help-name="Curtain">
 
 </script>

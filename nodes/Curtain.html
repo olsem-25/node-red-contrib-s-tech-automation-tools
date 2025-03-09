@@ -1,0 +1,32 @@
+<script type="text/javascript">
+    RED.nodes.registerType('Gurtain', {
+        category: 'S Tech tools',
+        color: '#FFD09D',
+        defaults: {
+            name: {value:null, required: true},
+            wbserver: {value:"", type:"WB-MQTT-Server"}
+        },
+        inputs:1,
+        outputs:2, 
+        icon: "S-Tech.png", 
+        label: function(){
+            return "S-Tech Gurtain" + (this.name?" : "+this.name:"");
+        },
+    
+    });
+</script>
+
+<script type="text/x-red" data-template-name="Gurtain">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div> 
+    <div class="form-row">
+        <label for="node-input-wbserver"><i class="fa fa-server"></i> Server</span></label>
+        <input type="text" id="node-input-wbserver">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Gurtain">
+
+</script>

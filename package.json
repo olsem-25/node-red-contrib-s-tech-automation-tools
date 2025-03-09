@@ -6,7 +6,8 @@
       "version": ">=3.0.0",
       "nodes": {
         "Server": "nodes/Server.js",
-        "Regulator": "nodes/Regulator.js"
+        "Regulator": "nodes/Regulator.js",
+        "Сurtain":  "nodes/Curtain.js"
       }
     },
     "keywords": [

@@ -1,48 +1,5 @@
 [
     {
-        "id": "f1c49e1f12520298",
-        "type": "Regulator",
-        "z": "9ed6622e6eb4e3dc",
-        "name": "Thermostat 1",
-        "title": "Теплый пол на кухне",
-        "regultype": "thermostat",
-        "strategy": "heating",
-        "min": "15",
-        "max": "30",
-        "target": "20",
-        "hysteresis": "0.5",
-        "invertrelay": false,
-        "locale": "ru-RU",
-        "wbserver": "f6f2cb4d65ec8eef",
-        "x": 620,
-        "y": 160,
-        "wires": [
-            [
-                "04f046ff0ce1384f"
-            ]
-        ]
-    },
-    {
-        "id": "e46930904279660a",
-        "type": "Curtain",
-        "z": "9ed6622e6eb4e3dc",
-        "name": "Curtain 1",
-        "title": "Штора в гостиной",
-        "locale": "ru-RU",
-        "wbserver": "f6f2cb4d65ec8eef",
-        "x": 620,
-        "y": 320,
-        "wires": [
-            [
-                "2c52071d9cf2183d"
-            ],
-            [
-                "90b52cae05aee4aa"
-            ],
-            []
-        ]
-    },
-    {
         "id": "2fa79ee74d40f267",
         "type": "inject",
         "z": "9ed6622e6eb4e3dc",
@@ -64,10 +21,10 @@
         "payload": "15",
         "payloadType": "num",
         "x": 270,
-        "y": 120,
+        "y": 100,
         "wires": [
             [
-                "f1c49e1f12520298"
+                "799a77e0d860ea9a"
             ]
         ]
     },
@@ -93,10 +50,10 @@
         "payload": "20",
         "payloadType": "num",
         "x": 270,
-        "y": 160,
+        "y": 140,
         "wires": [
             [
-                "f1c49e1f12520298"
+                "799a77e0d860ea9a"
             ]
         ]
     },
@@ -122,10 +79,10 @@
         "payload": "25",
         "payloadType": "num",
         "x": 270,
-        "y": 200,
+        "y": 180,
         "wires": [
             [
-                "f1c49e1f12520298"
+                "799a77e0d860ea9a"
             ]
         ]
     },
@@ -137,13 +94,13 @@
         "active": true,
         "tosidebar": true,
         "console": false,
-        "tostatus": false,
+        "tostatus": true,
         "complete": "true",
         "targetType": "full",
-        "statusVal": "",
+        "statusVal": "payload",
         "statusType": "auto",
         "x": 930,
-        "y": 160,
+        "y": 140,
         "wires": []
     },
     {
@@ -154,13 +111,13 @@
         "active": true,
         "tosidebar": true,
         "console": false,
-        "tostatus": false,
+        "tostatus": true,
         "complete": "true",
         "targetType": "full",
-        "statusVal": "",
+        "statusVal": "payload",
         "statusType": "auto",
         "x": 940,
-        "y": 320,
+        "y": 280,
         "wires": []
     },
     {
@@ -171,13 +128,13 @@
         "active": true,
         "tosidebar": true,
         "console": false,
-        "tostatus": false,
+        "tostatus": true,
         "complete": "true",
         "targetType": "full",
-        "statusVal": "",
+        "statusVal": "payload",
         "statusType": "auto",
         "x": 940,
-        "y": 380,
+        "y": 340,
         "wires": []
     },
     {
@@ -198,10 +155,10 @@
         "payload": "open",
         "payloadType": "str",
         "x": 280,
-        "y": 320,
+        "y": 280,
         "wires": [
             [
-                "e46930904279660a"
+                "1f3bdbe8b1584a2f"
             ]
         ]
     },
@@ -223,10 +180,10 @@
         "payload": "close",
         "payloadType": "str",
         "x": 280,
-        "y": 360,
+        "y": 340,
         "wires": [
             [
-                "e46930904279660a"
+                "1f3bdbe8b1584a2f"
             ]
         ]
     },
@@ -251,9 +208,72 @@
         "y": 400,
         "wires": [
             [
-                "e46930904279660a"
+                "1f3bdbe8b1584a2f"
             ]
         ]
+    },
+    {
+        "id": "799a77e0d860ea9a",
+        "type": "ST-Regulator",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Thermostat 1",
+        "title": "Теплый пол на кухне",
+        "regultype": "thermostat",
+        "strategy": "heating",
+        "min": "15",
+        "max": "30",
+        "target": "20",
+        "hysteresis": "0.5",
+        "invertrelay": false,
+        "locale": "ru-RU",
+        "channel": null,
+        "wbserver": "f6f2cb4d65ec8eef",
+        "x": 620,
+        "y": 140,
+        "wires": [
+            [
+                "04f046ff0ce1384f"
+            ]
+        ]
+    },
+    {
+        "id": "1f3bdbe8b1584a2f",
+        "type": "ST-Curtain",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Curtain 1",
+        "title": "Штора в гостиной",
+        "locale": "ru-RU",
+        "wbserver": "f6f2cb4d65ec8eef",
+        "x": 620,
+        "y": 340,
+        "wires": [
+            [
+                "2c52071d9cf2183d"
+            ],
+            [
+                "90b52cae05aee4aa"
+            ],
+            [
+                "6fe3d5ce7741759d"
+            ]
+        ]
+    },
+    {
+        "id": "6fe3d5ce7741759d",
+        "type": "debug",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Стоп",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 930,
+        "y": 400,
+        "wires": []
     },
     {
         "id": "f6f2cb4d65ec8eef",

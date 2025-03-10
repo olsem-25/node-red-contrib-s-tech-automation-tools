@@ -255,6 +255,6 @@ module.exports = function(RED) {
             }
         });
     }
-    RED.nodes.registerType("Regulator", STRegulator);
+    RED.nodes.registerType("ST-Regulator", STRegulator);
 }
 

@@ -128,5 +128,5 @@ module.exports = function(RED) {
 
         
     }        
-    RED.nodes.registerType("Curtain", STCurtain);
+    RED.nodes.registerType("ST-Curtain", STCurtain);
 }

@@ -75,15 +75,20 @@ module.exports = function(RED) {
         this.on('input', (msg, _send, done)=>{
             const command = msg.payload;
             if (command == "open") {
-                node.send([{ payload: 1 }, null, { payload: 0 }]);
+                node.send([{ payload: 1 }, null, null]);
+                openclose = 1;
             } else if (command == "close") {
-                node.send([null, { payload: 1 }, { payload: 0 }]);
+                node.send([null, { payload: 1 }, null]);
+                openclose = 0;
             } else if (command == "stop") {
-                node.send([{ payload: 1 }, { payload: 1 }, { payload: 0 }]);
+                node.send([{ payload: 1 }, { payload: 1 }, { payload: 1 }]);
+                stop = 1;
             } else {
                 node.error("Unknown command: " + command);
+                done(); return;
             }
             node.status({fill:"green",shape:"dot", text:command}); 
+            WriteValuesToMQTT();
             ClearOuts();
             done();
         });
@@ -91,8 +96,22 @@ module.exports = function(RED) {
         server.mqtt.on('message', (topic, message) => {
             const topicParts = topic.split('/');
             if (topicParts[2] == name && topicParts[5] == "on") { 
-                if (topicParts[4] == "openclose") {openclose = message.toString();  ClearOuts(); WriteValuesToMQTT ();}
-                if (topicParts[4] == "stop" && message == 1 ) {stop = 1;  ClearOuts(); WriteValuesToMQTT ();}    
+                if (topicParts[4] == "openclose") {
+                    openclose = message.toString(); WriteValuesToMQTT (); ClearOuts(); 
+                    if ( openclose == 1 ) {
+                        node.status({fill:"green",shape:"dot", text:"open"}) 
+                        node.send([{ payload: 1 }, null, null]);
+                    }
+                    else { 
+                        node.status({fill:"green",shape:"dot", text:"close"});
+                        node.send([null, { payload: 1 }, null]);
+                    }
+                }
+                if (topicParts[4] == "stop" && message == 1 ) {
+                    node.send([{ payload: 1 }, { payload: 1 }, { payload: 1 }])
+                    stop = 1; WriteValuesToMQTT (); ClearOuts(); 
+                    node.status({fill:"green",shape:"dot", text:"stop"}); 
+                }    
             }            
         });
 

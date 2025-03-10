@@ -8,14 +8,14 @@
         "regultype": "thermostat",
         "strategy": "heating",
         "min": "15",
-        "max": "50",
+        "max": "30",
         "target": "20",
         "hysteresis": "0.5",
         "invertrelay": false,
         "locale": "ru-RU",
         "wbserver": "f6f2cb4d65ec8eef",
         "x": 620,
-        "y": 180,
+        "y": 160,
         "wires": [
             [
                 "04f046ff0ce1384f"
@@ -26,11 +26,12 @@
         "id": "e46930904279660a",
         "type": "Curtain",
         "z": "9ed6622e6eb4e3dc",
-        "name": "Curtain 2",
+        "name": "Curtain 1",
         "title": "Штора в гостиной",
+        "locale": "ru-RU",
         "wbserver": "f6f2cb4d65ec8eef",
         "x": 620,
-        "y": 340,
+        "y": 320,
         "wires": [
             [
                 "2c52071d9cf2183d"
@@ -63,7 +64,7 @@
         "payload": "15",
         "payloadType": "num",
         "x": 270,
-        "y": 140,
+        "y": 120,
         "wires": [
             [
                 "f1c49e1f12520298"
@@ -92,7 +93,7 @@
         "payload": "20",
         "payloadType": "num",
         "x": 270,
-        "y": 180,
+        "y": 160,
         "wires": [
             [
                 "f1c49e1f12520298"
@@ -121,7 +122,7 @@
         "payload": "25",
         "payloadType": "num",
         "x": 270,
-        "y": 220,
+        "y": 200,
         "wires": [
             [
                 "f1c49e1f12520298"
@@ -132,7 +133,7 @@
         "id": "04f046ff0ce1384f",
         "type": "debug",
         "z": "9ed6622e6eb4e3dc",
-        "name": "Вывод 1",
+        "name": "Реле",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -141,8 +142,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 940,
-        "y": 180,
+        "x": 930,
+        "y": 160,
         "wires": []
     },
     {
@@ -159,7 +160,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 940,
-        "y": 340,
+        "y": 320,
         "wires": []
     },
     {
@@ -176,7 +177,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 940,
-        "y": 400,
+        "y": 380,
         "wires": []
     },
     {
@@ -197,7 +198,7 @@
         "payload": "open",
         "payloadType": "str",
         "x": 280,
-        "y": 340,
+        "y": 320,
         "wires": [
             [
                 "e46930904279660a"
@@ -222,7 +223,7 @@
         "payload": "close",
         "payloadType": "str",
         "x": 280,
-        "y": 380,
+        "y": 360,
         "wires": [
             [
                 "e46930904279660a"
@@ -247,7 +248,7 @@
         "payload": "stop",
         "payloadType": "str",
         "x": 270,
-        "y": 420,
+        "y": 400,
         "wires": [
             [
                 "e46930904279660a"
@@ -257,7 +258,7 @@
     {
         "id": "f6f2cb4d65ec8eef",
         "type": "WB-MQTT-Server",
-        "name": "localhost",
+        "name": "Localhost",
         "host": "localhost",
         "mqtt_port": "1883",
         "mqtt_username": "",

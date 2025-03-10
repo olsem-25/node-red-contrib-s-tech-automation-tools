@@ -13,6 +13,7 @@ module.exports = function (RED) {
         var username = config.mqtt_username||null;
         var password = config.mqtt_password||null;
         var client;
+        var topics = [];
 
         node.context().global.set("ParametrsNames", JSON.parse(fs.readFileSync(path.join(__dirname, 'config', 'parameters.json'), 'utf8')));
 
@@ -47,11 +48,50 @@ module.exports = function (RED) {
         };
 
         node.subscribeToTopic = (topic) => {
-                
             node.mqtt.subscribe(topic, function (err) {
                 if (err) node.error(`Ошибка подписки на топик ${topic}: ${err.message}`);
+                else {
+                    topics.push(topic);
+                    node.log('Успешная подписка на MQTT топик: ' + topic);
+                }                 
             }); 
         }
+        
+
+        function unsubscribeMQTT() {
+            return new Promise((resolve, reject) => {
+                let unsubscribePromises = topics.map((topic) => {
+                    return new Promise((res, rej) => {
+                        node.mqtt.unsubscribe(topic, function (err) {
+                            if (err) {
+                                node.error(`Ошибка отписки от топика ${topic}: ${err.message}`);
+                                rej(err);
+                            } else {
+                                node.log('Успешная Отписка от MQTT топика: ' + topic);
+                                res();
+                            }
+                        });
+                    });
+                });
+                Promise.all(unsubscribePromises)
+                    .then(() => resolve())
+                    .catch((err) => reject(err));
+            });
+        }
+
+        node.on('close', async (done) => {
+            try {
+                await unsubscribeMQTT();
+                node.mqtt.end();
+                node.emit('onClose');
+                node.log('MQTT connection closed');
+                done();
+            } catch (err) {
+                node.error('Ошибка при закрытии узла: ' + err.message);
+                done();
+            }
+        });
+
     }
     RED.nodes.registerType("WB-MQTT-Server", WBServerConfig, {});
 }

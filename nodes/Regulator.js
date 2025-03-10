@@ -235,11 +235,8 @@ module.exports = function(RED) {
         });
         
       
-        server.mqtt.subscribe(basetopic + name +"/#", function (err) {
-            if (err) {
-                node.error(`Ошибка подписки топик устройства ${basetopic + name +"/#"}: ${err.message}`);
-            } else {
-                node.log(`Успешно подписан на топик ${basetopic + name +"/#"}`);
+        server.subscribeToTopic(basetopic + name +"/#", function (err) {
+            if (!err) {
                 SetAllMeta ();
                 requestStartValue(); 
                 const checkInitComplete = setInterval(() => {

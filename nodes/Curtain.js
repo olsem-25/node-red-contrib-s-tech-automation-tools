@@ -75,10 +75,10 @@ module.exports = function(RED) {
         this.on('input', (msg, _send, done)=>{
             const command = msg.payload;
             if (command == "open") {
-                node.send([{ payload: 1 }, null, null]);
+                node.send([{ payload: 1 }, null, { payload: 0 }]);
                 openclose = 1;
             } else if (command == "close") {
-                node.send([null, { payload: 1 }, null]);
+                node.send([null, { payload: 1 }, { payload: 0 }]);
                 openclose = 0;
             } else if (command == "stop") {
                 node.send([{ payload: 1 }, { payload: 1 }, { payload: 1 }]);
@@ -100,11 +100,11 @@ module.exports = function(RED) {
                     openclose = message.toString(); WriteValuesToMQTT (); ClearOuts(); 
                     if ( openclose == 1 ) {
                         node.status({fill:"green",shape:"dot", text:"open"}) 
-                        node.send([{ payload: 1 }, null, null]);
+                        node.send([{ payload: 1 }, null, { payload: 0 }]);
                     }
                     else { 
                         node.status({fill:"green",shape:"dot", text:"close"});
-                        node.send([null, { payload: 1 }, null]);
+                        node.send([null, { payload: 1 }, { payload: 0 }]);
                     }
                 }
                 if (topicParts[4] == "stop" && message == 1 ) {
@@ -118,7 +118,6 @@ module.exports = function(RED) {
         
         server.subscribeToTopic(basetopic + name +"/#", function (err) {
             if (!err) {
-                //node.log(`Успешно подписан на топик ${basetopic + name +"/#"}`);
                 SetAllMeta (); 
                 WriteInitialValuesToMQTT ();
             }

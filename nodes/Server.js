@@ -67,7 +67,7 @@ module.exports = function (RED) {
                                 node.error(`Ошибка отписки от топика ${topic}: ${err.message}`);
                                 rej(err);
                             } else {
-                                node.log('Успешная Отписка от MQTT топика: ' + topic);
+                                node.log('Успешная отписка от MQTT топика: ' + topic);
                                 res();
                             }
                         });

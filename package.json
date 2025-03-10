@@ -13,7 +13,8 @@
     "keywords": [
       "node-red",
       "s-tech",
-      "regulators",
+      "regulator",
+      "curtain",
       "wirenboard"
     ],
     "dependencies": {

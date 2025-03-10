@@ -156,13 +156,13 @@ module.exports = function(RED) {
 
         this.on('input', (msg, send, done)=>{
             if (InitComplete == false) return;
-            if (typeof msg.payload != 'number'){   // Проверяем входную переменную ( number ли она )
+            if (typeof msg.payload != 'number'){  
 			 	node.error("Неверный тип! msg.payload должен быть числом.");
 			 	if (done) {done();}
 			 	return;
 			};
 
-			if (msg.payload == device.current){     // Может значение уже установлено?        
+			if (msg.payload == device.current){ 
 			 	node.debug("Значение не изменилось. Отмена обновления.");
 			 	if (done) {done();}
 			 	return;
@@ -174,7 +174,6 @@ module.exports = function(RED) {
 		});
 
         function RegulatorLogic () {
-            //var statestr = "";
             if (device.enable == 0) { device.state = ParametrsNames.Temperature.states.off[locale]; device.relay = 0; }         
             else switch (device.regultype) {
                 case "thermostat":
@@ -235,10 +234,7 @@ module.exports = function(RED) {
             }            
         });
         
-        // function delay(ms) {
-        //     return new Promise(resolve => setTimeout(resolve, ms));
-        // }
-
+      
         server.mqtt.subscribe(basetopic + name +"/#", function (err) {
             if (err) {
                 node.error(`Ошибка подписки топик устройства ${basetopic + name +"/#"}: ${err.message}`);

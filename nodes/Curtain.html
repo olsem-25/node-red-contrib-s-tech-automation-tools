@@ -3,14 +3,26 @@
         category: 'S Tech tools',
         color: '#FFD09D',
         defaults: {
-            name: {value:null, required: true}
+            name: {value:null, required: true},
+            title: {value:null, required: true},
+            locale:{value:"en-EN"}, 
+            wbserver: {value:"", type:"WB-MQTT-Server"}
         },
         inputs:1,
         outputs:3, 
         icon: "S-Tech.png", 
         label: function(){
-            return "S-Tech Curtain" + (this.name?" : "+this.name:"");
-        }    
+            return "S-Tech Curtain" + (this.title?" : "+this.title:"");
+        },
+        oneditprepare: function() { 
+            var userLocale = navigator.language || navigator.userLanguage;
+            document.getElementById('node-input-locale').value = userLocale;
+        },  
+        oneditsave: function(){
+            this.name = $('#node-input-name').val(); // Сохранение значения поля name
+            this.title = $('#node-input-title').val();  // Сохранение значения поля title
+            this.wbserver = $('#node-input-wbserver').val(); // Сохранение значения поля wbserver   
+        }  
     });
 </script>
 
@@ -18,9 +30,41 @@
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-title"><i class="fa fa-book"></i> Title</label>
+        <input type="text" id="node-input-title" placeholder="Title">
+    </div>
+    <div class="form-row">
+        <label for="node-input-wbserver"><i class="fa fa-server"></i> Server</span></label>
+        <input type="text" id="node-input-wbserver">
+    </div>
+    <div class="form-row">
+        <input id="node-input-locale" name="locale" type="hidden">
     </div> 
 </script>
 
 <script type="text/x-red" data-help-name="Curtain">
+    <p>Этот узел создает устройство MQTT в нотации Wiren Board для управления шторами. 
+        Физическое управление шторами просходит через два реле по схеме "сухой контакт". 
+        Замыкание реле подключенного к выходу 1 - открывает, к выходу 2 - закрывает, при замыкании обоих реле - останавливает привод штор.</p>
 
+    <h3>Конфигурация:</h3>
+    <ul>
+    <li><strong>Name</strong> - Выберете любое имя для устройства. Это имя будет использоваться для MQTT топика.</li>
+    <li><strong>Title</strong> - Удобное для идентификации имя, будет показываться в интерфейсе Wirenboard.</li>
+    <li><strong>Server</strong> - Выберете экземпляр сервера MQTT для использования.</li>
+    </ul>
+
+    <h3>Вход:</h3>
+    <ul>
+    <li><strong>payload</strong> - Команда для управления шторами. Допустимые значения:"open","close","stop".</li>
+    </ul>
+
+    <h3>Выходы:</h3>
+    <ul>
+    <li><strong>1. payload</strong> - Отправляет команду "1" "открыть".</li>
+    <li><strong>2. payload</strong> - Отправляет команду "1" "закрыть".</li>
+    <li><strong>3. payload</strong> - Отправляет команду "1" "стоп". при отправке "стоп" одновременно отправляется "1" на выходы 1 и 2.</li>
+    </ul>
 </script>

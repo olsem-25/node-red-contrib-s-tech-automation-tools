@@ -1,0 +1,266 @@
+[
+    {
+        "id": "f1c49e1f12520298",
+        "type": "Regulator",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Thermostat 1",
+        "title": "Теплый пол на кухне",
+        "regultype": "thermostat",
+        "strategy": "heating",
+        "min": "15",
+        "max": "50",
+        "target": "20",
+        "hysteresis": "0.5",
+        "invertrelay": false,
+        "locale": "ru-RU",
+        "wbserver": "f6f2cb4d65ec8eef",
+        "x": 620,
+        "y": 180,
+        "wires": [
+            [
+                "04f046ff0ce1384f"
+            ]
+        ]
+    },
+    {
+        "id": "e46930904279660a",
+        "type": "Curtain",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Curtain 2",
+        "title": "Штора в гостиной",
+        "wbserver": "f6f2cb4d65ec8eef",
+        "x": 620,
+        "y": 340,
+        "wires": [
+            [
+                "2c52071d9cf2183d"
+            ],
+            [
+                "90b52cae05aee4aa"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "2fa79ee74d40f267",
+        "type": "inject",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "15",
+        "payloadType": "num",
+        "x": 270,
+        "y": 140,
+        "wires": [
+            [
+                "f1c49e1f12520298"
+            ]
+        ]
+    },
+    {
+        "id": "4127ddc95bedfed4",
+        "type": "inject",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "20",
+        "payloadType": "num",
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "f1c49e1f12520298"
+            ]
+        ]
+    },
+    {
+        "id": "c11933bc10273d16",
+        "type": "inject",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "25",
+        "payloadType": "num",
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "f1c49e1f12520298"
+            ]
+        ]
+    },
+    {
+        "id": "04f046ff0ce1384f",
+        "type": "debug",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Вывод 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "2c52071d9cf2183d",
+        "type": "debug",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Открыть",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "90b52cae05aee4aa",
+        "type": "debug",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Закрыть",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "5daa512913fedf7c",
+        "type": "inject",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Открыть",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "open",
+        "payloadType": "str",
+        "x": 280,
+        "y": 340,
+        "wires": [
+            [
+                "e46930904279660a"
+            ]
+        ]
+    },
+    {
+        "id": "d8f2606f932d3cf4",
+        "type": "inject",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Закрыть",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "close",
+        "payloadType": "str",
+        "x": 280,
+        "y": 380,
+        "wires": [
+            [
+                "e46930904279660a"
+            ]
+        ]
+    },
+    {
+        "id": "8904696133777117",
+        "type": "inject",
+        "z": "9ed6622e6eb4e3dc",
+        "name": "Стоп",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "stop",
+        "payloadType": "str",
+        "x": 270,
+        "y": 420,
+        "wires": [
+            [
+                "e46930904279660a"
+            ]
+        ]
+    },
+    {
+        "id": "f6f2cb4d65ec8eef",
+        "type": "WB-MQTT-Server",
+        "name": "localhost",
+        "host": "localhost",
+        "mqtt_port": "1883",
+        "mqtt_username": "",
+        "mqtt_password": ""
+    }
+]

@@ -80,5 +80,15 @@
             "en": "Relay",
             "ru": "Реле"
         }
+    },
+    "Curtain":{
+        "openclose": {
+            "en": "Close/Open",
+            "ru": "Закрыть/Открыть"
+        },
+        "stop": {
+            "en": "Stop",
+            "ru": "Стоп"
+        }
     }
 }

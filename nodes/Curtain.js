@@ -1,12 +1,75 @@
 module.exports = function(RED) {
     function STCurtain(config) {
         const node = this;
-        RED.nodes.createNode(this, config); 
+        RED.nodes.createNode(this, config);
+        const server = RED.nodes.getNode(config.wbserver); 
+        const locale = config.locale ? config.locale.split('-')[0] : 'en'; // Добавлена проверка на наличие значения
+        const name = config.name;
+        const driver = "S-Tech tools";
+        const basetopic = "/devices/";
+        var openclose = 0;
+        var stop = 0;
+        
+        const pause = 1000;
+
+        const metaopenclose = {};
+        const metastop = {};
+
+        const ParametrsNames =  node.context().global.get("ParametrsNames");
 
         node.send([{ payload: 0 }, { payload: 0 }, { payload: 0 }]);
+
+        function SetAllMeta (){
+            metaopenclose.title = {"en":ParametrsNames.Curtain.openclose.en, "ru":ParametrsNames.Curtain.openclose.ru};
+            metaopenclose.readonly = false;
+            metaopenclose.type = "switch";
+            metaopenclose.order = 1;
+            metastop.title = {"en":ParametrsNames.Curtain.stop.en, "ru":ParametrsNames.Curtain.stop.ru};
+            metastop.readonly = false;
+            metastop.type = "pushbutton";
+            metastop.order = 2;
+        }
+
+        server.on("online",()=>{
+			node.status({fill:"green",shape:"dot",text:"connect"});
+		});
+
+		server.on("offline",()=>{   
+			node.status({fill:"red",shape:"dot",text:"no connect"});
+		});  
+
+
+        function WriteInitialValuesToMQTT() {
+            var topic = basetopic + name;
+            var meta = {};
+            meta.name = config.title;
+            meta.title = {};
+            meta.title.ru = config.title;
+            meta.driver = driver; 
+            server.publishToTopic(topic + "/meta/name", config.title, true);
+            server.publishToTopic(topic + "/meta/driver", driver, true);
+            server.publishToTopic(topic + "/meta", JSON.stringify(meta), true);
+            server.publishToTopic(topic + "/controls/openclose/meta", JSON.stringify(metaopenclose), true);
+            server.publishToTopic(topic + "/controls/openclose/on", openclose.toString(), true);
+            server.publishToTopic(topic + "/controls/stop/meta", JSON.stringify(metastop), true);
+            server.publishToTopic(topic + "/controls/stop/on", stop.toString(), true);
+        }
+
+        function WriteValuesToMQTT() {
+            var topic = basetopic + name;
+            server.publishToTopic(topic + "/controls/openclose", openclose.toString(), true);
+            server.publishToTopic(topic + "/controls/stop", stop.toString(), true);
+        }
         
         function delay(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        async function ClearOuts () {
+            await delay(pause);
+            stop = 0;
+            server.publishToTopic(basetopic + name + "/controls/stop/on", stop.toString(), true);
+            server.publishToTopic(basetopic + name + "/controls/stop", stop.toString(), true);
+            node.send([{ payload: 0 }, { payload: 0 }, { payload: 0 }]);
         }
 
         this.on('input', (msg, _send, done)=>{
@@ -20,14 +83,29 @@ module.exports = function(RED) {
             } else {
                 node.error("Unknown command: " + command);
             }
-            SetOuts();
+            node.status({fill:"green",shape:"dot", text:command}); 
+            ClearOuts();
             done();
         });
 
-        async function SetOuts () {
-            await delay(1000); 
-            node.send([{ payload: 0 }, { payload: 0 }, { payload: 0 }]);
-        }
+        server.mqtt.on('message', (topic, message) => {
+            const topicParts = topic.split('/');
+            if (topicParts[2] == name && topicParts[5] == "on") { 
+                if (topicParts[4] == "openclose") {openclose = message.toString();  ClearOuts(); WriteValuesToMQTT ();}
+                if (topicParts[4] == "stop" && message == 1 ) {stop = 1;  ClearOuts(); WriteValuesToMQTT ();}    
+            }            
+        });
+
+        
+        server.mqtt.subscribe(basetopic + name +"/#", function (err) {
+            if (err) {
+                node.error(`Ошибка подписки топик устройства ${basetopic + name +"/#"}: ${err.message}`);
+            } else {
+                node.log(`Успешно подписан на топик ${basetopic + name +"/#"}`);
+                SetAllMeta (); 
+                WriteInitialValuesToMQTT ();
+            }
+        });
 
         
     }        

@@ -1,4 +1,6 @@
 var mqtt = require('mqtt');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = function (RED) {    
     function WBServerConfig(config) {
@@ -12,7 +14,8 @@ module.exports = function (RED) {
         var password = config.mqtt_password||null;
         var client;
 
-   
+        node.context().global.set("ParametrsNames", JSON.parse(fs.readFileSync(path.join(__dirname, 'config', 'parameters.json'), 'utf8')));
+
         function connectMQTT() {
             var options = {
                 port: port,

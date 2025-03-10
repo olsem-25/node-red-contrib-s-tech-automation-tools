@@ -1,6 +1,4 @@
 
-const fs = require('fs');
-const path = require('path');
 
 module.exports = function(RED) {
     function STRegulator(config) {
@@ -8,7 +6,7 @@ module.exports = function(RED) {
 		RED.nodes.createNode(this, config); 
         const server = RED.nodes.getNode(config.wbserver);
         const name = config.name;
-        const locale = config.locale.split('-')[0];            
+        const locale = config.locale ? config.locale.split('-')[0] : 'en'; 
         const driver = "S-Tech tools";
         const basetopic = "/devices/";
         const requestTopic = "/tmp/ST_items_list";
@@ -19,7 +17,7 @@ module.exports = function(RED) {
         const metastate = {};
         const metarelay = {};
 
-        const ParametrsNames = JSON.parse(fs.readFileSync(path.join(__dirname, 'config', 'parameters.json'), 'utf8'));
+        const ParametrsNames =  node.context().global.get("ParametrsNames");
 
         const upto = {};
         upto.en = " up to ";
@@ -118,7 +116,6 @@ module.exports = function(RED) {
         }
 
         function WriteInitialValuesToMQTT() {
-            if (!(locale == "ru")) locale = "en";
             var topic = basetopic + name;
             var meta = {};
             meta.name = config.title;

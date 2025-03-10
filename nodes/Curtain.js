@@ -50,9 +50,7 @@ module.exports = function(RED) {
             server.publishToTopic(topic + "/meta/driver", driver, true);
             server.publishToTopic(topic + "/meta", JSON.stringify(meta), true);
             server.publishToTopic(topic + "/controls/openclose/meta", JSON.stringify(metaopenclose), true);
-            server.publishToTopic(topic + "/controls/openclose/on", openclose.toString(), true);
             server.publishToTopic(topic + "/controls/stop/meta", JSON.stringify(metastop), true);
-            server.publishToTopic(topic + "/controls/stop/on", stop.toString(), true);
         }
 
         function WriteValuesToMQTT() {
@@ -116,13 +114,12 @@ module.exports = function(RED) {
         });
 
         
-        server.subscribeToTopic(basetopic + name +"/#", function (err) {
-            if (!err) {
-                SetAllMeta (); 
-                WriteInitialValuesToMQTT ();
+        server.subscribeToTopic(basetopic + name +"/#").then((result) => {
+            if (result == "sucsess"){
+                SetAllMeta(); 
+                WriteInitialValuesToMQTT();
             }
         });
-
         
     }        
     RED.nodes.registerType("ST-Curtain", STCurtain);

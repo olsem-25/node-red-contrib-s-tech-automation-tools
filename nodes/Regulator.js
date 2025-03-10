@@ -235,8 +235,20 @@ module.exports = function(RED) {
         });
         
       
-        server.subscribeToTopic(basetopic + name +"/#", function (err) {
-            if (!err) {
+        // server.subscribeToTopic(basetopic + name +"/#", function (err) {
+        //     if (!err) {
+        //         SetAllMeta ();
+        //         requestStartValue(); 
+        //         const checkInitComplete = setInterval(() => {
+        //             if (!(device.target == null) && !(device.enable == null)) {
+        //                 clearInterval(checkInitComplete);
+        //                 WriteInitialValuesToMQTT();
+        //             }
+        //         }, 100);    
+        //     }
+        // });
+        server.subscribeToTopic(basetopic + name +"/#").then((result) => {
+            if (result == "sucsess"){
                 SetAllMeta ();
                 requestStartValue(); 
                 const checkInitComplete = setInterval(() => {
@@ -244,8 +256,8 @@ module.exports = function(RED) {
                         clearInterval(checkInitComplete);
                         WriteInitialValuesToMQTT();
                     }
-                }, 100);    
-            }
+                }, 100);
+            }    
         });
     }
     RED.nodes.registerType("ST-Regulator", STRegulator);

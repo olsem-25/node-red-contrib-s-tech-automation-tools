@@ -48,13 +48,18 @@ module.exports = function (RED) {
         };
 
         node.subscribeToTopic = (topic) => {
-            node.mqtt.subscribe(topic, function (err) {
-                if (err) node.error(`Ошибка подписки на топик ${topic}: ${err.message}`);
-                else {
+            return new Promise((resolve, reject) => {
+                node.mqtt.subscribe(topic, function (err) {
+                    if (err) {
+                    node.error(`Ошибка подписки на топик ${topic}: ${err.message}`);
+                    reject(err);
+                    } else {
                     topics.push(topic);
                     node.log('Успешная подписка на MQTT топик: ' + topic);
-                }                 
-            }); 
+                    resolve("sucsess");
+                    }
+                });
+            });
         }
         
 

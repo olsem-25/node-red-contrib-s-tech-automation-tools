@@ -1,8 +1,7 @@
 # node-red-contrib-s-tech-automation-tools
 
 
-Этот сервис создает виртуальные устройства. На данный момент доступны Термостат и Гигростат. Устройства обмениваются данными через MQTT сервер. Удобно использовать на контроллерах Wiren Board.
-
+Этот сервис создает виртуальные устройства в MQTT. Устройства создаются в нотации Wiren Board. Доступные в текущей версии устройства: термостат, гигростат и управление приводом штор. 
 
 [![platform](https://img.shields.io/badge/platform-Node--RED-red?logo=nodered)](https://nodered.org)
 [![GitHub version](https://img.shields.io/github/package-json/v/olsem-25/node-red-contrib-s-tech-automation-tools?logo=npm)](https://www.npmjs.com/package/node-red-contrib-s-tech-automation-tools)

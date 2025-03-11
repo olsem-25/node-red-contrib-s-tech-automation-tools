@@ -234,21 +234,12 @@ module.exports = function(RED) {
             }            
         });
         
-      
-        // server.subscribeToTopic(basetopic + name +"/#", function (err) {
-        //     if (!err) {
-        //         SetAllMeta ();
-        //         requestStartValue(); 
-        //         const checkInitComplete = setInterval(() => {
-        //             if (!(device.target == null) && !(device.enable == null)) {
-        //                 clearInterval(checkInitComplete);
-        //                 WriteInitialValuesToMQTT();
-        //             }
-        //         }, 100);    
-        //     }
-        // });
-        server.subscribeToTopic(basetopic + name +"/#").then((result) => {
-            if (result == "sucsess"){
+        server.mqtt.subscribe(basetopic + name +"/#", function (err) {
+            if (err) {
+                node.error(`Ошибка подписки топик устройства ${basetopic + name +"/#"}: ${err.message}`);
+            } else {
+                node.log(`Успешно подписан на топик ${basetopic + name +"/#"}`);
+                server.topicpush(basetopic + name +"/#");
                 SetAllMeta ();
                 requestStartValue(); 
                 const checkInitComplete = setInterval(() => {
@@ -256,8 +247,8 @@ module.exports = function(RED) {
                         clearInterval(checkInitComplete);
                         WriteInitialValuesToMQTT();
                     }
-                }, 100);
-            }    
+                }, 100);    
+            }
         });
     }
     RED.nodes.registerType("ST-Regulator", STRegulator);

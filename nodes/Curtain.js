@@ -113,11 +113,14 @@ module.exports = function(RED) {
             }            
         });
 
-        
-        server.subscribeToTopic(basetopic + name +"/#").then((result) => {
-            if (result == "sucsess"){
+        server.mqtt.subscribe(basetopic + name +"/#", function (err) {
+            if (err) {
+                node.error(`Ошибка подписки топик устройства ${basetopic + name +"/#"}: ${err.message}`);
+            } else {
+                node.log(`Успешно подписан на топик ${basetopic + name +"/#"}`);
+                server.topicpush(basetopic + name +"/#");
                 SetAllMeta(); 
-                WriteInitialValuesToMQTT();
+                WriteInitialValuesToMQTT();   
             }
         });
         

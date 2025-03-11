@@ -17,6 +17,8 @@ module.exports = function (RED) {
 
         node.context().global.set("ParametrsNames", JSON.parse(fs.readFileSync(path.join(__dirname, 'config', 'parameters.json'), 'utf8')));
 
+        node.topicpush = (topic) =>{ topics.push(topic); }
+
         function connectMQTT() {
             var options = {
                 port: port,
@@ -54,7 +56,7 @@ module.exports = function (RED) {
                     node.error(`Ошибка подписки на топик ${topic}: ${err.message}`);
                     reject(err);
                     } else {
-                    topics.push(topic);
+                    node.topicpush(topic);
                     node.log('Успешная подписка на MQTT топик: ' + topic);
                     resolve("sucsess");
                     }

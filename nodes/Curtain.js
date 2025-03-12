@@ -71,7 +71,7 @@ module.exports = function(RED) {
         }
         
         async function ClearOuts () {
-            cancelDelay ()
+            cancelDelay ();
             await delay(pause);
             stop = 0;
             server.publishToTopic(basetopic + name + "/controls/stop/on", stop.toString(), true);
@@ -83,19 +83,23 @@ module.exports = function(RED) {
             const topicParts = topic.split('/');
             if (topicParts[2] == name && topicParts[5] == "on") { 
                 if (topicParts[4] == "openclose") {
-                    openclose = message.toString(); WriteValuesToMQTT (); ClearOuts(); 
+                    openclose = message.toString(); 
+                    WriteValuesToMQTT (); 
+                    ClearOuts();
                     if ( openclose == 1 ) {
                         node.status({fill:"green",shape:"dot", text:"open"}) 
-                        node.send([{ payload: 1 }, null]);
+                        node.send([{ payload: 1 }, { payload: 0 }]);
                     }
                     else { 
                         node.status({fill:"green",shape:"dot", text:"close"});
-                        node.send([null, { payload: 1 }]);
+                        node.send([{ payload: 0 }, { payload: 1 }]);
                     }
                 }
                 if (topicParts[4] == "stop" && message == 1 ) {
                     node.send([{ payload: 1 }, { payload: 1 }])
-                    stop = 1; WriteValuesToMQTT (); ClearOuts(); 
+                    stop = 1; 
+                    WriteValuesToMQTT (); 
+                    ClearOuts(); 
                     node.status({fill:"green",shape:"dot", text:"stop"}); 
                 }    
             }            

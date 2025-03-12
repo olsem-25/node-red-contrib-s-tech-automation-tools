@@ -99,7 +99,7 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "auto",
-        "x": 930,
+        "x": 950,
         "y": 140,
         "wires": []
     },
@@ -116,7 +116,7 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "auto",
-        "x": 940,
+        "x": 960,
         "y": 280,
         "wires": []
     },
@@ -133,84 +133,9 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "auto",
-        "x": 940,
-        "y": 340,
+        "x": 960,
+        "y": 360,
         "wires": []
-    },
-    {
-        "id": "5daa512913fedf7c",
-        "type": "inject",
-        "z": "9ed6622e6eb4e3dc",
-        "name": "Открыть",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "open",
-        "payloadType": "str",
-        "x": 280,
-        "y": 280,
-        "wires": [
-            [
-                "1f3bdbe8b1584a2f"
-            ]
-        ]
-    },
-    {
-        "id": "d8f2606f932d3cf4",
-        "type": "inject",
-        "z": "9ed6622e6eb4e3dc",
-        "name": "Закрыть",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "close",
-        "payloadType": "str",
-        "x": 280,
-        "y": 340,
-        "wires": [
-            [
-                "1f3bdbe8b1584a2f"
-            ]
-        ]
-    },
-    {
-        "id": "8904696133777117",
-        "type": "inject",
-        "z": "9ed6622e6eb4e3dc",
-        "name": "Стоп",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "stop",
-        "payloadType": "str",
-        "x": 270,
-        "y": 400,
-        "wires": [
-            [
-                "1f3bdbe8b1584a2f"
-            ]
-        ]
     },
     {
         "id": "799a77e0d860ea9a",
@@ -228,7 +153,7 @@
         "locale": "ru-RU",
         "channel": null,
         "wbserver": "f6f2cb4d65ec8eef",
-        "x": 620,
+        "x": 660,
         "y": 140,
         "wires": [
             [
@@ -244,36 +169,16 @@
         "title": "Штора в гостиной",
         "locale": "ru-RU",
         "wbserver": "f6f2cb4d65ec8eef",
-        "x": 620,
-        "y": 340,
+        "x": 640,
+        "y": 320,
         "wires": [
             [
                 "2c52071d9cf2183d"
             ],
             [
                 "90b52cae05aee4aa"
-            ],
-            [
-                "6fe3d5ce7741759d"
             ]
         ]
-    },
-    {
-        "id": "6fe3d5ce7741759d",
-        "type": "debug",
-        "z": "9ed6622e6eb4e3dc",
-        "name": "Стоп",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": true,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "payload",
-        "statusType": "auto",
-        "x": 930,
-        "y": 400,
-        "wires": []
     },
     {
         "id": "f6f2cb4d65ec8eef",

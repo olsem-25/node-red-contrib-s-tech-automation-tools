@@ -11,13 +11,14 @@ module.exports = function(RED) {
         var stop = 0;
         
         const pause = 1000;
+        let timeoutId = null;
 
         const metaopenclose = {};
         const metastop = {};
 
         const ParametrsNames =  node.context().global.get("ParametrsNames");
 
-        node.send([{ payload: 0 }, { payload: 0 }, { payload: 0 }]);
+        node.send([{ payload: 0 }, { payload: 0 }]);
 
         function SetAllMeta (){
             metaopenclose.title = {"en":ParametrsNames.Curtain.openclose.en, "ru":ParametrsNames.Curtain.openclose.ru};
@@ -60,36 +61,23 @@ module.exports = function(RED) {
         }
         
         function delay(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
+            return new Promise((resolve) => {
+            timeoutId = setTimeout(() => { timeoutId = null; resolve(); }, ms);
+            });
         }
+        
+        function cancelDelay() {
+            if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; }
+        }
+        
         async function ClearOuts () {
+            cancelDelay ()
             await delay(pause);
             stop = 0;
             server.publishToTopic(basetopic + name + "/controls/stop/on", stop.toString(), true);
             server.publishToTopic(basetopic + name + "/controls/stop", stop.toString(), true);
             node.send([{ payload: 0 }, { payload: 0 }, { payload: 0 }]);
         }
-
-        this.on('input', (msg, _send, done)=>{
-            const command = msg.payload;
-            if (command == "open") {
-                node.send([{ payload: 1 }, null, { payload: 0 }]);
-                openclose = 1;
-            } else if (command == "close") {
-                node.send([null, { payload: 1 }, { payload: 0 }]);
-                openclose = 0;
-            } else if (command == "stop") {
-                node.send([{ payload: 1 }, { payload: 1 }, { payload: 1 }]);
-                stop = 1;
-            } else {
-                node.error("Unknown command: " + command);
-                done(); return;
-            }
-            node.status({fill:"green",shape:"dot", text:command}); 
-            WriteValuesToMQTT();
-            ClearOuts();
-            done();
-        });
 
         server.mqtt.on('message', (topic, message) => {
             const topicParts = topic.split('/');
@@ -98,15 +86,15 @@ module.exports = function(RED) {
                     openclose = message.toString(); WriteValuesToMQTT (); ClearOuts(); 
                     if ( openclose == 1 ) {
                         node.status({fill:"green",shape:"dot", text:"open"}) 
-                        node.send([{ payload: 1 }, null, { payload: 0 }]);
+                        node.send([{ payload: 1 }, null]);
                     }
                     else { 
                         node.status({fill:"green",shape:"dot", text:"close"});
-                        node.send([null, { payload: 1 }, { payload: 0 }]);
+                        node.send([null, { payload: 1 }]);
                     }
                 }
                 if (topicParts[4] == "stop" && message == 1 ) {
-                    node.send([{ payload: 1 }, { payload: 1 }, { payload: 1 }])
+                    node.send([{ payload: 1 }, { payload: 1 }])
                     stop = 1; WriteValuesToMQTT (); ClearOuts(); 
                     node.status({fill:"green",shape:"dot", text:"stop"}); 
                 }    

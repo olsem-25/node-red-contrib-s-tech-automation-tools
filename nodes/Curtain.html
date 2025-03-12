@@ -8,8 +8,7 @@
             locale:{value:"en-EN"}, 
             wbserver: {value:"", type:"WB-MQTT-Server"}
         },
-        inputs:1,
-        outputs:3, 
+        outputs:2, 
         icon: "S-Tech.png", 
         label: function(){
             return "S-Tech Curtain" + (this.title?" : "+this.title:"");
@@ -56,15 +55,10 @@
     <li><strong>Server</strong> - Выберете экземпляр сервера MQTT для использования.</li>
     </ul>
 
-    <h3>Вход:</h3>
-    <ul>
-    <li><strong>payload</strong> - Команда для управления шторами. Допустимые значения:"open","close","stop".</li>
-    </ul>
 
     <h3>Выходы:</h3>
     <ul>
     <li><strong>1. payload</strong> - Отправляет команду "1" "открыть".</li>
     <li><strong>2. payload</strong> - Отправляет команду "1" "закрыть".</li>
-    <li><strong>3. payload</strong> - Отправляет команду "1" "стоп". при отправке "стоп" одновременно отправляется "1" на выходы 1 и 2.</li>
     </ul>
 </script>

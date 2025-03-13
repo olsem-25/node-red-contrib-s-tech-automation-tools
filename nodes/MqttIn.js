@@ -32,20 +32,20 @@ module.exports = function(RED) {
             if ( topicParts.length == 5 && topicParts[2] == device && topicParts[4] == control ) { 
                 if (startsend == false && stsnd == false && filter == true ) { 
                     stsnd = true;
-                    LastMessage = message.toString();
+                    LastMessage = message;
                     }  
                 if (startsend == true && stsnd == false) {
                     stsnd = true;
-                    LastMessage = message.toString();
-                    node.send({ payload: message.toString() });
+                    LastMessage = message;
+                    node.send({ payload: message });
                     node.status({fill:"green",shape:"dot", text:message.toString() + CurrentDateTime()});
                     return; 
                 }
                 else{
                     if (filter == true && message.toString() == LastMessage) {return;}
                     else{ 
-                        LastMessage = message.toString();
-                        node.send({ payload: message.toString() });
+                        LastMessage = message;
+                        node.send({ payload: message });
                         node.status({fill:"green",shape:"dot", text:message.toString() + CurrentDateTime()});
                     }
                 } 

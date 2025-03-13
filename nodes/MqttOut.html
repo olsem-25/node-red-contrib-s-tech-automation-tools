@@ -54,19 +54,18 @@
 </script>
 
 <script type="text/x-red" data-help-name="ST-MqttOut">
-    <p>Отправляет сообщение в MQTT топик</p>
+    <p>Отправляет сообщение в MQTT топик в нотации Wiren Board.</p>
 
     <h3>Конфигурация:</h3>
     <ul>
-    <li><strong>Name</strong> - Выберете любое имя для устройства. Это имя будет использоваться для MQTT топика.</li>
-    <li><strong>Title</strong> - Удобное для идентификации имя, будет показываться в интерфейсе Wirenboard.</li>
     <li><strong>Server</strong> - Выберете экземпляр сервера MQTT для использования.</li>
+    <li><strong>Device</strong> - Имя устройства для отправки сообщения.</li>
+    <li><strong>Control</strong> - Имя контрола для отправки сообщения.</li>
+    <li><strong>Command</strong> - Команда, по умолчанию "/on".</li>
     </ul>
 
-
-    <h3>Выход:</h3>
+    <h3>Вход:</h3>
     <ul>
-    <li><strong>1. payload</strong> - Отправляет команду "1" "открыть".</li>
-    <li><strong>2. payload</strong> - Отправляет команду "1" "закрыть".</li>
+    <li><strong>payload</strong> - Значение для отправки.</li>
     </ul>
 </script>

@@ -1,0 +1,57 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ST-MQTT-Out', {
+        category: 'S Tech tools',
+        color: '#FFD09D',
+        defaults: {
+            name: {value:null, required: true},
+            title: {value:null, required: true},
+            locale:{value:"en-EN"}, 
+            wbserver: {value:"", type:"WB-MQTT-Server"}
+        },
+        inputs:1, 
+        icon: "S-Tech.png", 
+        label: function(){
+            return "MQTT OUT" + (this.name?" : "+this.name:"");
+        },
+        oneditprepare: function() { 
+            var userLocale = navigator.language || navigator.userLanguage;
+            document.getElementById('node-input-locale').value = userLocale;
+        },  
+        oneditsave: function(){
+            this.name = $('#node-input-name').val(); 
+            this.wbserver = $('#node-input-wbserver').val(); 
+        }  
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ST-MQTT-Out">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-wbserver"><i class="fa fa-server"></i> Server</span></label>
+        <input type="text" id="node-input-wbserver">
+    </div>
+    <div class="form-row">
+        <input id="node-input-locale" name="locale" type="hidden">
+    </div> 
+</script>
+
+<script type="text/x-red" data-help-name="ST-MQTT-Out">
+    <p>Отправляет сообщение в MQTT топик</p>
+
+    <h3>Конфигурация:</h3>
+    <ul>
+    <li><strong>Name</strong> - Выберете любое имя для устройства. Это имя будет использоваться для MQTT топика.</li>
+    <li><strong>Title</strong> - Удобное для идентификации имя, будет показываться в интерфейсе Wirenboard.</li>
+    <li><strong>Server</strong> - Выберете экземпляр сервера MQTT для использования.</li>
+    </ul>
+
+
+    <h3>Выход:</h3>
+    <ul>
+    <li><strong>1. payload</strong> - Отправляет команду "1" "открыть".</li>
+    <li><strong>2. payload</strong> - Отправляет команду "1" "закрыть".</li>
+    </ul>
+</script>

@@ -1,8 +1,8 @@
 [
     {
-        "id": "2fa79ee74d40f267",
+        "id": "99d3d0e1ef345967",
         "type": "inject",
-        "z": "9ed6622e6eb4e3dc",
+        "z": "37b545fda4782ea4",
         "name": "",
         "props": [
             {
@@ -20,18 +20,18 @@
         "topic": "",
         "payload": "15",
         "payloadType": "num",
-        "x": 270,
-        "y": 100,
+        "x": 290,
+        "y": 180,
         "wires": [
             [
-                "799a77e0d860ea9a"
+                "2595eb31312369b0"
             ]
         ]
     },
     {
-        "id": "4127ddc95bedfed4",
+        "id": "d48e8a1d5ff905b1",
         "type": "inject",
-        "z": "9ed6622e6eb4e3dc",
+        "z": "37b545fda4782ea4",
         "name": "",
         "props": [
             {
@@ -49,18 +49,18 @@
         "topic": "",
         "payload": "20",
         "payloadType": "num",
-        "x": 270,
-        "y": 140,
+        "x": 290,
+        "y": 220,
         "wires": [
             [
-                "799a77e0d860ea9a"
+                "2595eb31312369b0"
             ]
         ]
     },
     {
-        "id": "c11933bc10273d16",
+        "id": "e9132ad6e0cd5cdc",
         "type": "inject",
-        "z": "9ed6622e6eb4e3dc",
+        "z": "37b545fda4782ea4",
         "name": "",
         "props": [
             {
@@ -78,18 +78,18 @@
         "topic": "",
         "payload": "25",
         "payloadType": "num",
-        "x": 270,
-        "y": 180,
+        "x": 290,
+        "y": 260,
         "wires": [
             [
-                "799a77e0d860ea9a"
+                "2595eb31312369b0"
             ]
         ]
     },
     {
-        "id": "04f046ff0ce1384f",
+        "id": "14a39c631d5e427f",
         "type": "debug",
-        "z": "9ed6622e6eb4e3dc",
+        "z": "37b545fda4782ea4",
         "name": "Реле",
         "active": true,
         "tosidebar": true,
@@ -99,14 +99,14 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "auto",
-        "x": 950,
-        "y": 140,
+        "x": 970,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "2c52071d9cf2183d",
+        "id": "d4958ecce15b9252",
         "type": "debug",
-        "z": "9ed6622e6eb4e3dc",
+        "z": "37b545fda4782ea4",
         "name": "Открыть",
         "active": true,
         "tosidebar": true,
@@ -116,14 +116,14 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "auto",
-        "x": 960,
-        "y": 280,
+        "x": 980,
+        "y": 360,
         "wires": []
     },
     {
-        "id": "90b52cae05aee4aa",
+        "id": "94c5688f96a73600",
         "type": "debug",
-        "z": "9ed6622e6eb4e3dc",
+        "z": "37b545fda4782ea4",
         "name": "Закрыть",
         "active": true,
         "tosidebar": true,
@@ -133,14 +133,14 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "auto",
-        "x": 960,
-        "y": 360,
+        "x": 980,
+        "y": 440,
         "wires": []
     },
     {
-        "id": "799a77e0d860ea9a",
+        "id": "2595eb31312369b0",
         "type": "ST-Regulator",
-        "z": "9ed6622e6eb4e3dc",
+        "z": "37b545fda4782ea4",
         "name": "Thermostat 1",
         "title": "Теплый пол на кухне",
         "regultype": "thermostat",
@@ -153,30 +153,128 @@
         "locale": "ru-RU",
         "channel": null,
         "wbserver": "f6f2cb4d65ec8eef",
-        "x": 660,
-        "y": 140,
+        "x": 680,
+        "y": 220,
         "wires": [
             [
-                "04f046ff0ce1384f"
+                "14a39c631d5e427f"
             ]
         ]
     },
     {
-        "id": "1f3bdbe8b1584a2f",
+        "id": "b50bc6222fe07679",
         "type": "ST-Curtain",
-        "z": "9ed6622e6eb4e3dc",
+        "z": "37b545fda4782ea4",
         "name": "Curtain 1",
         "title": "Штора в гостиной",
         "locale": "ru-RU",
         "wbserver": "f6f2cb4d65ec8eef",
-        "x": 640,
-        "y": 320,
+        "x": 660,
+        "y": 400,
         "wires": [
             [
-                "2c52071d9cf2183d"
+                "d4958ecce15b9252"
             ],
             [
-                "90b52cae05aee4aa"
+                "94c5688f96a73600"
+            ]
+        ]
+    },
+    {
+        "id": "6c93affd6ce8be31",
+        "type": "ST-MqttIn",
+        "z": "37b545fda4782ea4",
+        "device": "wb-mr6c_1",
+        "control": "K1",
+        "locale": "ru-RU",
+        "wbserver": "f6f2cb4d65ec8eef",
+        "startsend": true,
+        "filter": true,
+        "x": 500,
+        "y": 560,
+        "wires": [
+            [
+                "36e71cf5281ba853"
+            ]
+        ]
+    },
+    {
+        "id": "36e71cf5281ba853",
+        "type": "debug",
+        "z": "37b545fda4782ea4",
+        "name": "Сообщение",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "1c904fde6fd99f30",
+        "type": "ST-MqttOut",
+        "z": "37b545fda4782ea4",
+        "device": "wb-mr6c_1",
+        "control": "K1",
+        "command": "on",
+        "locale": "ru-RU",
+        "wbserver": "f6f2cb4d65ec8eef",
+        "x": 730,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "65ccb2ad01dc42f7",
+        "type": "inject",
+        "z": "37b545fda4782ea4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 450,
+        "y": 680,
+        "wires": [
+            [
+                "1c904fde6fd99f30"
+            ]
+        ]
+    },
+    {
+        "id": "8d8182a520bfce4e",
+        "type": "inject",
+        "z": "37b545fda4782ea4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 450,
+        "y": 720,
+        "wires": [
+            [
+                "1c904fde6fd99f30"
             ]
         ]
     },

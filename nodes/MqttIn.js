@@ -37,7 +37,7 @@ module.exports = function(RED) {
                 if (startsend == true && stsnd == false) {
                     stsnd = true;
                     LastMessage = message;
-                    node.send({ payload: message });
+                    node.send({ "payload": message.toString() });
                     node.status({fill:"green",shape:"dot", text:message.toString() + CurrentDateTime()});
                     return; 
                 }
@@ -45,7 +45,7 @@ module.exports = function(RED) {
                     if (filter == true && message.toString() == LastMessage) {return;}
                     else{ 
                         LastMessage = message;
-                        node.send({ payload: message });
+                        node.send({ "payload": message.toString()});
                         node.status({fill:"green",shape:"dot", text:message.toString() + CurrentDateTime()});
                     }
                 } 

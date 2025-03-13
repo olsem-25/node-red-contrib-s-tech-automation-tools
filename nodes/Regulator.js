@@ -84,7 +84,7 @@ module.exports = function(RED) {
 		});  
 
 
-        function waitForMessage(topic, timeout) {
+        function waitForMessage(timeout) {
             return new Promise((resolve, reject) => {
                 var count = 0;
                 const timer = setTimeout(() => {
@@ -106,7 +106,7 @@ module.exports = function(RED) {
         async function requestStartValue() {
             try {
                 server.publishToTopic(requestTopic, "get_value", false);
-                await waitForMessage(responseTopic,500); // 500 мс таймаут
+                await waitForMessage(500); // 500 мс таймаут
             } catch (error) {
                 node.error(`Ошибка: ${error.message}`);
                 device.target = config.target || config.min;

@@ -15,6 +15,8 @@ module.exports = function (RED) {
         var client;
         var topics = [];
 
+        global.Flow_MQTT_Server_loaded = false;
+
         node.context().global.set("ParametrsNames", JSON.parse(fs.readFileSync(path.join(__dirname, 'config', 'parameters.json'), 'utf8')));
 
         node.topicpush = (topic) =>{ topics.push(topic); }
@@ -99,6 +101,12 @@ module.exports = function (RED) {
             }
         });
 
+        const intrvl = setInterval(() => {
+            if (node.mqtt.connected == true){
+                setTimeout ( function () { global.Flow_MQTT_Server_loaded = true}, 0);
+                clearInterval(intrvl);
+            }
+		}, 50)
     }
     RED.nodes.registerType("WB-MQTT-Server", WBServerConfig, {});
 }

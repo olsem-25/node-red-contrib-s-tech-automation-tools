@@ -114,8 +114,7 @@ module.exports = function(RED) {
                 SetAllMeta(); 
                 WriteInitialValuesToMQTT();   
             }
-        });
-        
+        });            
     }        
     RED.nodes.registerType("ST-Curtain", STCurtain);
 }

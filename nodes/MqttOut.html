@@ -1,44 +1,59 @@
 <script type="text/javascript">
-    RED.nodes.registerType('ST-MQTT-Out', {
+    RED.nodes.registerType('ST-MqttOut', {
         category: 'S Tech tools',
         color: '#FFD09D',
         defaults: {
-            name: {value:null, required: true},
-            title: {value:null, required: true},
+            device: {value:null, required: true},
+            control: {value:null, required: true},
+            command: {value:"on"},
             locale:{value:"en-EN"}, 
             wbserver: {value:"", type:"WB-MQTT-Server"}
         },
         inputs:1, 
         icon: "S-Tech.png", 
         label: function(){
-            return "MQTT OUT" + (this.name?" : "+this.name:"");
+            return "Mqtt out" + (this.device?":"+this.device:"") + (this.control?"/"+this.control:"");
         },
         oneditprepare: function() { 
             var userLocale = navigator.language || navigator.userLanguage;
             document.getElementById('node-input-locale').value = userLocale;
         },  
         oneditsave: function(){
-            this.name = $('#node-input-name').val(); 
-            this.wbserver = $('#node-input-wbserver').val(); 
+            this.device = $('#node-input-device').val();
+            this.control = $('#node-input-control').val();
+            this.command = $('#node-input-command').val();   
+            this.wbserver = $('#node-input-wbserver').val();  
         }  
     });
 </script>
 
-<script type="text/x-red" data-template-name="ST-MQTT-Out">
-    <div class="form-row">
+<script type="text/x-red" data-template-name="ST-MqttOut">
+    <!-- <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
+        <input type="text" id="node-input-name" placeholder="Name" >
+    </div> -->
     <div class="form-row">
         <label for="node-input-wbserver"><i class="fa fa-server"></i> Server</span></label>
         <input type="text" id="node-input-wbserver">
+    </div>
+    <div class="form-row">
+        <label for="node-input-device"><i class="fa fa-server"></i> Device</span></label>
+        <input type="text" id="node-input-device">
+    </div>
+    <div class="form-row">
+        <label for="node-input-control"><i class="fa fa-server"></i> Control</span></label>
+        <input type="text" id="node-input-control">
+    </div>
+    <div class="form-row">
+        <label for="node-input-command"><i class="fa fa-server"></i> Command</span></label>
+        <input type="text" id="node-input-command">
     </div>
     <div class="form-row">
         <input id="node-input-locale" name="locale" type="hidden">
     </div> 
 </script>
 
-<script type="text/x-red" data-help-name="ST-MQTT-Out">
+<script type="text/x-red" data-help-name="ST-MqttOut">
     <p>Отправляет сообщение в MQTT топик</p>
 
     <h3>Конфигурация:</h3>

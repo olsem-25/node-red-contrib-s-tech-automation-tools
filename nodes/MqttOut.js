@@ -6,6 +6,7 @@ module.exports = function(RED) {
         const device = config.device;
         const cntrls = config.controls ? config.controls.split(',') : []; 
         const command = config.command;
+        const locale = config.locale
         const basetopic = "/devices/";
         
         const controls = cntrls.map((cn) => { return cn.trim(); });

@@ -9,7 +9,8 @@
             locale:{value:"en-EN"}, 
             wbserver: {value:"", type:"WB-MQTT-Server"}
         },
-        inputs:1, 
+        inputs:1,
+        outputs:0, 
         icon: "S-Tech.png", 
         label: function(){
             return "Mqtt out" + (this.device?":"+this.device:"") + (this.controls?"/"+this.controls:"");

@@ -4,10 +4,12 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         const server = RED.nodes.getNode(config.wbserver); 
         const device = config.device;
-        const control = config.control;
+        const cntrls = config.controls ? config.controls.split(',') : []; 
         const command = config.command;
         const basetopic = "/devices/";
         
+        const controls = cntrls.map((cn) => { return cn.trim(); });
+
         server.on("online",()=>{
 			node.status({fill:"green",shape:"dot",text:"connect"});
 		});
@@ -17,13 +19,15 @@ module.exports = function(RED) {
 		}); 
 
         node.on('input', function(msg) {
-            let topic = basetopic + device +"/controls/" + control;
-            if (command && command.length > 0) { 
-                topic += "/" + command; 
-            }
-            const message = msg.payload?.toString() || '';
-            server.publishToTopic(topic, message, true);
-            node.status({fill:"green",shape:"dot", text:message}); 
+            controls.forEach(control => {
+                let topic = basetopic + device +"/controls/" + control;
+                if (command && command.length > 0) { 
+                    topic += "/" + command; 
+                }
+                const message = msg.payload?.toString() || '';
+                server.publishToTopic(topic, message, true);
+                node.status({fill:"green",shape:"dot", text:message}); 
+            });
         });
          
     }        

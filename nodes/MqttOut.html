@@ -4,7 +4,7 @@
         color: '#FFD09D',
         defaults: {
             device: {value:null, required: true},
-            control: {value:null, required: true},
+            controls: {value:null, required: true},
             command: {value:"on"},
             locale:{value:"en-EN"}, 
             wbserver: {value:"", type:"WB-MQTT-Server"}
@@ -12,7 +12,7 @@
         inputs:1, 
         icon: "S-Tech.png", 
         label: function(){
-            return "Mqtt out" + (this.device?":"+this.device:"") + (this.control?"/"+this.control:"");
+            return "Mqtt out" + (this.device?":"+this.device:"") + (this.controls?"/"+this.controls:"");
         },
         oneditprepare: function() { 
             var userLocale = navigator.language || navigator.userLanguage;
@@ -20,7 +20,7 @@
         },  
         oneditsave: function(){
             this.device = $('#node-input-device').val();
-            this.control = $('#node-input-control').val();
+            this.controls = $('#node-input-controls').val();
             this.command = $('#node-input-command').val();   
             this.wbserver = $('#node-input-wbserver').val();  
         }  
@@ -41,8 +41,8 @@
         <input type="text" id="node-input-device">
     </div>
     <div class="form-row">
-        <label for="node-input-control"><i class="fa fa-server"></i> Control</span></label>
-        <input type="text" id="node-input-control">
+        <label for="node-input-controls"><i class="fa fa-server"></i> Controls</span></label>
+        <input type="text" id="node-input-controls">
     </div>
     <div class="form-row">
         <label for="node-input-command"><i class="fa fa-server"></i> Command</span></label>
@@ -60,7 +60,7 @@
     <ul>
     <li><strong>Server</strong> - Выберете экземпляр сервера MQTT для использования.</li>
     <li><strong>Device</strong> - Имя устройства для отправки сообщения.</li>
-    <li><strong>Control</strong> - Имя контрола для отправки сообщения.</li>
+    <li><strong>Controls</strong> - Имя контрола или контролов для отправки сообщения. Имена разделяются запятой.</li>
     <li><strong>Command</strong> - Команда, по умолчанию "/on".</li>
     </ul>
 

@@ -4,7 +4,7 @@
         color: '#FFD09D',
         defaults: {
             device: {value:null, required: true},
-            control: {value:null, required: true},
+            controls: {value:null, required: true},
             locale:{value:"en-EN"}, 
             wbserver: {value:"", type:"WB-MQTT-Server"},
             startsend: {value: true, required: true},
@@ -13,7 +13,7 @@
         outputs:1, 
         icon: "S-Tech.png", 
         label: function(){
-            return "Mqtt in" + (this.device?":"+this.device:"") + (this.control?"/"+this.control:"");
+            return "Mqtt in" + (this.device?":"+this.device:"") + (this.controls?"/"+this.controls:"");
         },
         oneditprepare: function() { 
             var userLocale = navigator.language || navigator.userLanguage;
@@ -22,7 +22,7 @@
         oneditsave: function(){
             //this.name = $('#node-input-name').val();
             this.device = $('#node-input-device').val();
-            this.control = $('#node-input-control').val();   
+            this.contros = $('#node-input-controls').val();   
             this.wbserver = $('#node-input-wbserver').val();
             this.startsend = $('#node-input-startsend').prop('checked');
             this.filter = $('#node-input-filter').prop('checked');   
@@ -44,8 +44,8 @@
         <input type="text" id="node-input-device">
     </div>
     <div class="form-row">
-        <label for="node-input-control"><i class="fa fa-server"></i> Control</span></label>
-        <input type="text" id="node-input-control">
+        <label for="node-input-controls"><i class="fa fa-server"></i> Controls</span></label>
+        <input type="text" id="node-input-controls">
     </div>
     <div class="form-row">
         <label for='node-input-startsend' class="l-width"><i class='fa fa-share-square'></i> Start Send</span></label>
@@ -67,7 +67,7 @@
     <ul>
     <li><strong>Server</strong> - Выберете экземпляр сервера MQTT для использования.</li>
     <li><strong>Device</strong> - Имя устройства для прослушивания.</li>
-    <li><strong>Control</strong> - Имя контрола для прослушивания.</li>
+    <li><strong>Control</strong> - Имя контрола или контролов для прослушивания. Имена разделяются запятой.</li>
     <li><strong>Start Send</strong> - Отправлять ли значение при старте.</li>
     <li><strong>Filter</strong> - Отправлять только если значение изменилось.</li>
     </ul>
@@ -75,6 +75,7 @@
 
     <h3>Выход:</h3>
     <ul>
+    <li><strong>topic</strong> - Имя топика.</li>
     <li><strong>payload</strong> - Значение топика.</li>
     </ul>
 </script>

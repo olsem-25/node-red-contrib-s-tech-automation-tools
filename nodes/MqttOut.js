@@ -10,6 +10,12 @@ module.exports = function(RED) {
         
         const controls = cntrls.map((cn) => { return cn.trim(); });
 
+        function CurrentDateTime ()
+        {
+            let DT = ' [' + new Date().toLocaleDateString(locale) + ' ' + new Date().toLocaleTimeString(locale) + ']'; 
+            return DT.toString();
+        }
+
         server.on("online",()=>{
 			node.status({fill:"green",shape:"dot",text:"connect"});
 		});
@@ -26,7 +32,7 @@ module.exports = function(RED) {
                 }
                 const message = msg.payload?.toString() || '';
                 server.publishToTopic(topic, message, true);
-                node.status({fill:"green",shape:"dot", text:message}); 
+                node.status({fill:"green",shape:"dot", text:message.toString() + CurrentDateTime()}); 
             });
         });
          

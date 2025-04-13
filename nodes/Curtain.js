@@ -16,6 +16,8 @@ module.exports = function(RED) {
         const metaopenclose = {};
         const metastop = {};
 
+        var firtsmsg = true;
+
         const ParametrsNames =  node.context().global.get("ParametrsNames");
 
         node.send([{ payload: 0 }, { payload: 0 }]);
@@ -86,6 +88,7 @@ module.exports = function(RED) {
                     openclose = message.toString(); 
                     WriteValuesToMQTT (); 
                     ClearOuts();
+                    if (firtsmsg == true) { firtsmsg = false; return; }
                     if ( openclose == 1 ) {
                         node.status({fill:"green",shape:"dot", text:"open"}) 
                         node.send([{ payload: 1 }, { payload: 0 }]);

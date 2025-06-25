@@ -149,7 +149,7 @@ module.exports = function(RED) {
             server.publishToTopic(topic + "/controls/enable", device.enable.toString(), true);
             server.publishToTopic(topic + "/controls/relay", device.relay.toString(), true);
             server.publishToTopic(topic + "/controls/current", device.current.toString(), true);
-            node.send({ payload: config.invertrelay ? 1 - relay.toString(): relay.toString()});
+            node.send({ payload: config.invertrelay ? 1 - device.relay.toString(): device.relay.toString()});
         }
 
 
